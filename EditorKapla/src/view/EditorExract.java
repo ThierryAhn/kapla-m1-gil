@@ -54,16 +54,12 @@ implements ActionListener, ScreenController {
 	 * Mise en place du physique.
 	 */
 	private BulletAppState bulletAppState;
-	/**
-	 * Table de la construction.
-	 */
-	private Table table;
-	/**
-	 * Le sol sur lequel est posee la table.
-	 */
-	private Floor floor;
 	
+	/**
+	 * Camera.
+	 */
 	private CharacterControl camera;
+	
 	private Vector3f cameraPosition = new Vector3f();
 	/**
 	 * Activation de la rotation de la camera.
@@ -86,7 +82,7 @@ implements ActionListener, ScreenController {
 		stateManager.attach(bulletAppState);
 		
 		// creation du sol et de la table.
-		createFloor();
+		createRoom();
 		createTable();
 		
 		initListeners();
@@ -156,23 +152,25 @@ implements ActionListener, ScreenController {
 	}
 	
 	/**
-	 * Creation et ajout du sol.
-	 */
-	public void createFloor(){
-		floor =  new Floor(bulletAppState,assetManager).makeFloor();
-		rootNode.attachChild(floor);
-	}
-	
-	/**
 	 * Creation et ajout de la table.
 	 */
 	public void createTable(){
-		table =  new Table(bulletAppState,assetManager).makeTable();
+		Table table =  new Table(bulletAppState,assetManager).makeTable();
 		for(int i = 0; i < 4; i++){
 			TableLeg tableLeg = table.getTableLeg(i);
 			rootNode.attachChild(tableLeg);
 		}
 		rootNode.attachChild(table);
+	}
+	
+	/**
+	 * Cree la salle autour de la table
+	 */
+	public void createRoom(){
+		Room room = new Room(bulletAppState, assetManager);
+		for(int i=0;i<6;i++){
+			rootNode.attachChild(room.getWalls(i));
+		}
 	}
 	
 	/**
