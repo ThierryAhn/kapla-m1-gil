@@ -65,14 +65,7 @@ implements ActionListener,ScreenController {
 	 * Brique courante.
 	 */
 	private Brick brick;
-	/**
-	 * Table de la construction.
-	 */
-	private Table table;
-	/**
-	 * Le sol sur lequel est posee la table.
-	 */
-	private Floor floor;
+	
 	/**
 	 * Compteur de brique.
 	 */
@@ -198,7 +191,7 @@ implements ActionListener,ScreenController {
 	 * Creation et ajout du sol.
 	 */
 	public void createFloor(){
-		floor =  new Floor(bulletAppState, assetManager).makeFloor();
+		Floor floor =  new Floor(bulletAppState, assetManager).makeFloor();
 		rootNode.attachChild(floor);
 	}
 
@@ -206,7 +199,7 @@ implements ActionListener,ScreenController {
 	 * Creation et ajout de la table.
 	 */
 	public void createTable(){
-		table =  new Table(bulletAppState, assetManager).makeTable();
+		Table table =  new Table(bulletAppState, assetManager).makeTable();
 		for(int i = 0; i < 4; i++){
 			TableLeg tableLeg = table.getTableLeg(i);
 			rootNode.attachChild(tableLeg);
