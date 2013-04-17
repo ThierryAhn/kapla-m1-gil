@@ -15,7 +15,7 @@ import com.jme3.texture.Texture;
  * Classe Table qui implemente l'interface ITable.
  * @author Groupe C M1 GIL.
  */
-@SuppressWarnings("deprecation")
+
 public class Table extends Geometry{
 
 	/**
@@ -47,7 +47,7 @@ public class Table extends Geometry{
 	private TableLeg tableLeg[] = new TableLeg[4];
 	
 	static{    
-		box = new Box(Vector3f.ZERO, tableLength, tableWidth, tableHeight);
+		box = new Box(tableLength, tableWidth, tableHeight);
 		box.scaleTextureCoordinates(new Vector2f(3, 6));
 	}
 	

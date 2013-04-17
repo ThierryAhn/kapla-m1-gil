@@ -6,7 +6,6 @@ import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
@@ -15,7 +14,6 @@ import com.jme3.scene.shape.Box;
  * @author Groupe C M1 GIL
  */
 
-@SuppressWarnings({ "deprecation" })
 public class Brick extends Geometry{
 
 	/**
@@ -57,8 +55,9 @@ public class Brick extends Geometry{
 	 * Instanciation de la brique.
 	 */
 	static{
-		box = new Box(Vector3f.ZERO, brickLength, brickHeight, brickWidth);
+		box = new Box(brickLength, brickHeight, brickWidth);
 		box.scaleTextureCoordinates(new Vector2f(1f, .5f));
+		
 	}
 
 	/**

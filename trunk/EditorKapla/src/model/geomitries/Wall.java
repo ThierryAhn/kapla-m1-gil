@@ -15,7 +15,6 @@ import com.jme3.texture.Texture;
  * Classe Wall qui represente un mur.
  * @author Groupe C M1 GIL.
  */
-@SuppressWarnings("deprecation")
 public class Wall extends Geometry{
 
 	/**
@@ -46,7 +45,7 @@ public class Wall extends Geometry{
 		this.bulletAppState = bulletAppState;
 		this.assetManager = assetManager; 
 		// instanciation du mur
-		box = new Box(Vector3f.ZERO, length, width, height);
+		box = new Box(length, width, height);
 		box.scaleTextureCoordinates(new Vector2f(3, 6));
 		setMesh(box);
 	}
