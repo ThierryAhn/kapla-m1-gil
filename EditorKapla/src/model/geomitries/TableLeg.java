@@ -15,7 +15,7 @@ import com.jme3.texture.Texture;
  * Classe TableLeg qui implemente l'interface ITableLeg.
  * @author Groupe C M1 GIL.
  */
-@SuppressWarnings("deprecation")
+
 public class TableLeg extends Geometry{
 	/**
 	 * Dimensions du pied de table.
@@ -44,7 +44,7 @@ public class TableLeg extends Geometry{
 	 * Instanciation du pied de la table.
 	 */
 	static{    
-		box = new Box(Vector3f.ZERO,tableLegLength,tableLegWidth
+		box = new Box(tableLegLength,tableLegWidth
 				,tableLegHeight);
 		box.scaleTextureCoordinates(new Vector2f(3, 6));
 	}

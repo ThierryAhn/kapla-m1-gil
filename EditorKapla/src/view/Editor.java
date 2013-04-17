@@ -153,9 +153,7 @@ implements ActionListener,ScreenController {
 	}
 
 	@Override
-	public void simpleRender(RenderManager rm) {
-		//TODO: add render code
-	}
+	public void simpleRender(RenderManager rm) { }
 	
 	/**
 	 * Main
@@ -545,18 +543,15 @@ implements ActionListener,ScreenController {
 
 	@Override
 	public void bind(Nifty arg0, Screen arg1) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onEndScreen() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onStartScreen() {
-		// TODO Auto-generated method stub
 
 	}
 }
