@@ -231,19 +231,16 @@ implements ActionListener,ScreenController {
 		inputManager.addMapping("Dezoom", new KeyTrigger(KeyInput.KEY_D));
 		inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_UP));
 		inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_DOWN));
-		inputManager.addMapping("s", new KeyTrigger(KeyInput.KEY_S));
-		inputManager.addMapping("r", new KeyTrigger(KeyInput.KEY_R));
-		inputManager.addMapping("t", new KeyTrigger(KeyInput.KEY_T));
-		inputManager.addMapping("u", new KeyTrigger(KeyInput.KEY_U));
+		inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_T));
+		inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_R));
 		inputManager.addListener(this, "Left");
 		inputManager.addListener(this, "Right");
 		inputManager.addListener(this, "Zoom");
 		inputManager.addListener(this, "Dezoom");
 		inputManager.addListener(this, "Up");
 		inputManager.addListener(this, "Down");
-		inputManager.addListener(this, "r");
-		inputManager.addListener(this, "t");
-		inputManager.addListener(this, "u");
+		inputManager.addListener(this, "rotateRight");
+		inputManager.addListener(this, "rotateLeft");
 
 	}   
 	
@@ -386,9 +383,9 @@ implements ActionListener,ScreenController {
 			up = isPressed;
 		} else if (name.equals("Down")) {
 			down = isPressed;
-		}else if (name.equals("r")) {
+		}else if (name.equals("rotateLeft")) {
 			rotateLeft = isPressed;
-		}else if (name.equals("t")) {
+		}else if (name.equals("rotateRight")) {
 			rotateRight = isPressed;
 		}
 	}
@@ -485,7 +482,11 @@ implements ActionListener,ScreenController {
 			FileOutputStream fichier = new FileOutputStream(
 					System.getProperty("user.home")+"/ListBrick.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fichier);
-			oos.writeObject(brickList);
+			ArrayList<BrickProperties> listBP = new ArrayList<BrickProperties>();
+			for(Brick bri : brickList){
+				listBP.add(bri.getBrickProperties());
+			}
+			oos.writeObject(listBP);
 			oos.flush();
 			oos.close();
 			System.out.println("sauvegarder!");

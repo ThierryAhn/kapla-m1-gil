@@ -67,10 +67,8 @@ public class Brick extends Geometry{
 	 * @param assetManager
 	 */
 	public Brick(BrickProperties brickProperties, BulletAppState bulletAppState, AssetManager assetManager){
-		super("brick");
+		super("brick",box);
 		this.brickProperties = brickProperties;
-		// initialise la geometrie de la brique
-		setMesh(box);
 		this.bulletAppState = bulletAppState;
 		brickMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 		this.rotateBrick=0;
