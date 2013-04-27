@@ -29,7 +29,7 @@ public class Brick extends Geometry{
 	/**
 	 * Rotation de la brique
 	 */
-	private float rotateBrick;
+	private float rotateBrick=0;
 
 	/**
 	 * Dimensions de la brique.
@@ -71,7 +71,7 @@ public class Brick extends Geometry{
 		this.brickProperties = brickProperties;
 		this.bulletAppState = bulletAppState;
 		brickMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-		this.rotateBrick=0;
+		
 	}
 
 	/**
