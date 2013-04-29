@@ -1,4 +1,4 @@
-package model.notice;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -24,6 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+
+import model.notice.ImageActions;
+import model.notice.NoticeImage;
 
 /**
  * Classe NoticeInterface qui represente l'interface de la notice.
@@ -88,12 +92,8 @@ public class NoticeInterface extends JFrame{
 					// recuperation des images du dossier
 					getFiles(imagesPath);
 				}
-				System.out.println((int) (countImages/5 + 1.0f));
-
 
 				// mise a jour du panel des images
-				//centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 
-				//		PADDING, PADDING));
 				centerPanel.removeAll();
 				for(NoticeImage noticeImage : arrayImages){
 					try {
@@ -104,31 +104,45 @@ public class NoticeInterface extends JFrame{
 						ImageIcon newImageIcon = new ImageIcon(resizeImage);
 
 						JLabel tempLabel = new JLabel(newImageIcon);
-						centerPanel.add(tempLabel);
+						JPanel tempPanel = new JPanel(new BorderLayout());
+						tempPanel.add(tempLabel);
+						tempPanel.add(new ImageActions(NoticeInterface.this, 
+								noticeImage), BorderLayout.SOUTH);
+						
+						centerPanel.add(tempPanel);
 						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-
-					
 				}
-				
 				centerPanel.repaint();
 				centerPanel.validate();
 				add(centerPanel);
 			}
 
 		});
+		
+		JPanel southPanel = new JPanel(new BorderLayout());
+		JButton generatePdf = new JButton("Generer Pdf");
+		generatePdf.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				for(NoticeImage noticeImage : arrayImages){
+					System.out.println(noticeImage.getPath() + " => " 
+							+ noticeImage.getComment());
+				}
+			}
+		});
+		southPanel.add(new JLabel());
+		southPanel.add(generatePdf, BorderLayout.EAST);
 
 		// ajout des composants du northPanel
 		northPanel.add(folderPath);
 		northPanel.add(chooseFolder, BorderLayout.EAST);
 
-
-
 		// ajout des panels
 		add(northPanel, BorderLayout.NORTH);
 		add(centerPanel);
+		add(southPanel, BorderLayout.SOUTH);
 
 		pack();
 		setVisible(true);
