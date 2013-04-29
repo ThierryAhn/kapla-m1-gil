@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import java.awt.Dimension;
@@ -25,7 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.itextpdf.text.DocumentException;
 
+
+import model.notice.GeneratePdf;
 import model.notice.ImageActions;
 import model.notice.NoticeImage;
 
@@ -127,8 +131,19 @@ public class NoticeInterface extends JFrame{
 		generatePdf.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				for(NoticeImage noticeImage : arrayImages){
-					System.out.println(noticeImage.getPath() + " => " 
-							+ noticeImage.getComment());
+					GeneratePdf pdf = new GeneratePdf(arrayImages);
+					try {
+						pdf.generate();
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
