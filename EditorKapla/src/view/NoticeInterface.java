@@ -1,11 +1,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -25,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import com.itextpdf.text.DocumentException;
 
@@ -71,7 +74,13 @@ public class NoticeInterface extends JFrame{
 	public NoticeInterface(){
 		super("New Notice");
 		setLayout(new BorderLayout());
-
+		setSize(600, 600);
+		
+		// centrer la fenetre
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		setLocation(x, y);
 
 		// panel de choix du dossier des images
 		JPanel northPanel = new JPanel(new BorderLayout());
@@ -82,6 +91,12 @@ public class NoticeInterface extends JFrame{
 
 		// bouton de choix du dossier des images
 		JButton chooseFolder = new JButton("Choose Folder");
+		
+		// design bouton
+		chooseFolder.setBackground(new Color(128, 15, 1));
+		chooseFolder.setForeground(Color.BLACK);
+		//chooseFolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		
 		chooseFolder.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,6 +143,10 @@ public class NoticeInterface extends JFrame{
 		
 		JPanel southPanel = new JPanel(new BorderLayout());
 		JButton generatePdf = new JButton("Generer Pdf");
+		// design bouton
+		generatePdf.setBackground(new Color(128, 15, 1));
+		generatePdf.setForeground(Color.BLACK);
+		// action bouton
 		generatePdf.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				for(NoticeImage noticeImage : arrayImages){
@@ -159,7 +178,6 @@ public class NoticeInterface extends JFrame{
 		add(centerPanel);
 		add(southPanel, BorderLayout.SOUTH);
 
-		pack();
 		setVisible(true);
 	}
 
