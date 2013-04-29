@@ -1,0 +1,60 @@
+package model.notice;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfWriter;
+
+public class GeneratePdf {
+	
+	private ArrayList<NoticeImage> arrayImages;
+	
+	/**
+	 * Constructeur.
+	 * @param arrayImages liste d'images a inserer dans le pdf.
+	 */
+	public GeneratePdf(ArrayList<NoticeImage> arrayImages){
+		this.arrayImages = arrayImages;
+	}
+	
+	/**
+	 * Retourne la liste des images.
+	 * @return la liste des images.
+	 */
+	public ArrayList<NoticeImage> getArrayImages() {
+		return arrayImages;
+	}
+	
+	/**
+	 * Modifie la liste des images.
+	 * @param arrayImages nouvelle liste d'images
+	 */
+	public void setArrayImages(ArrayList<NoticeImage> arrayImages) {
+		this.arrayImages = arrayImages;
+	}
+	
+	public void generate() throws DocumentException, MalformedURLException, 
+				IOException{
+		Document document = new Document();
+		PdfWriter.getInstance(document, 
+				new FileOutputStream("TextWrapping.pdf"));
+		document.open();
+		
+		// recuperations des images
+		for(NoticeImage noticeImage : arrayImages){
+			Image image = Image.getInstance(noticeImage.getPath());
+			document.add(image);
+			document.add(new Phrase("\n\n"));
+			document.add(new Phrase(noticeImage.getComment()));
+		}
+		
+		document.close();
+	}
+}
