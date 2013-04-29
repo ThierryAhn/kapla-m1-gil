@@ -40,14 +40,20 @@ public class GeneratePdf {
 		this.arrayImages = arrayImages;
 	}
 	
+	/**
+	 * Genere le fichier pdf.
+	 * @throws DocumentException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
 	public void generate() throws DocumentException, MalformedURLException, 
 				IOException{
 		Document document = new Document();
 		PdfWriter.getInstance(document, 
-				new FileOutputStream("TextWrapping.pdf"));
+				new FileOutputStream("Fichier.pdf"));
 		document.open();
 		
-		// recuperations des images
+		// recuperations des images et ecriture dans le fichier pdf
 		for(NoticeImage noticeImage : arrayImages){
 			Image image = Image.getInstance(noticeImage.getPath());
 			image.scaleToFit(300, 300);
@@ -56,7 +62,6 @@ public class GeneratePdf {
 			document.add(new Phrase(noticeImage.getComment()));
 			document.add(new Phrase("\n"));
 		}
-		
 		document.close();
 	}
 }
