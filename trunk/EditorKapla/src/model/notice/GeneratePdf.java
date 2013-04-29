@@ -50,9 +50,11 @@ public class GeneratePdf {
 		// recuperations des images
 		for(NoticeImage noticeImage : arrayImages){
 			Image image = Image.getInstance(noticeImage.getPath());
+			image.scaleToFit(300, 300);
 			document.add(image);
-			document.add(new Phrase("\n\n"));
+			document.add(new Phrase("\n"));
 			document.add(new Phrase(noticeImage.getComment()));
+			document.add(new Phrase("\n"));
 		}
 		
 		document.close();
