@@ -14,6 +14,7 @@ import javax.swing.JPanel;
  * @author Groupe C M1GIL 2013.
  *
  */
+@SuppressWarnings("serial")
 public class ImageActions extends JPanel{
 	
 	/**

@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
  * @author Groupe C M1GIL 2013.
  *
  */
+@SuppressWarnings("serial")
 public class CommentDefinition extends JDialog{
 	
 	private JTextArea comment = new JTextArea("Tapez votre commentaire ici");

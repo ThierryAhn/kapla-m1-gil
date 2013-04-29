@@ -3,10 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,11 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-
 import java.awt.Dimension;
-
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,11 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-
 import com.itextpdf.text.DocumentException;
-
-
 import model.notice.GeneratePdf;
 import model.notice.ImageActions;
 import model.notice.NoticeImage;
@@ -41,6 +31,7 @@ import model.notice.NoticeImage;
  * @author Groupe C M1GIL 2013.
  *
  */
+@SuppressWarnings("serial")
 public class NoticeInterface extends JFrame{
 
 	/**
@@ -148,19 +139,17 @@ public class NoticeInterface extends JFrame{
 		generatePdf.setForeground(Color.BLACK);
 		// action bouton
 		generatePdf.addActionListener(new ActionListener(){
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				for(NoticeImage noticeImage : arrayImages){
 					GeneratePdf pdf = new GeneratePdf(arrayImages);
 					try {
 						pdf.generate();
 					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (DocumentException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
