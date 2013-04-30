@@ -44,10 +44,6 @@ public class NoticeInterface extends JFrame{
 	private JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 
 			PADDING, PADDING));
 	/**
-	 * Nombre d'images.
-	 */
-	private int countImages = 0;
-	/**
 	 * Liste contenant les images.
 	 */
 	private ArrayList<NoticeImage> arrayImages = new ArrayList<NoticeImage>();
@@ -186,7 +182,6 @@ public class NoticeInterface extends JFrame{
 							+files[i].getName());
 
 					arrayImages.add(noticeImage);
-					countImages++;
 				}
 			}
 		}
