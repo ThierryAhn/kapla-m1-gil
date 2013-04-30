@@ -53,12 +53,14 @@ public class GeneratePdf {
 		
 		// recuperations des images et ecriture dans le fichier pdf
 		for(NoticeImage noticeImage : arrayImages){
-			Image image = Image.getInstance(noticeImage.getPath());
-			image.scaleAbsolute(300, 300);
-			document.add(image);
-			document.add(new Phrase("\n"));
-			document.add(new Phrase(noticeImage.getComment()));
-			document.add(new Phrase("\n"));
+			if(noticeImage.isSelected()){
+				Image image = Image.getInstance(noticeImage.getPath());
+				image.scaleAbsolute(300, 300);
+				document.add(image);
+				document.add(new Phrase("\n"));
+				document.add(new Phrase(noticeImage.getComment()));
+				document.add(new Phrase("\n"));
+			}
 		}
 		document.close();
 	}

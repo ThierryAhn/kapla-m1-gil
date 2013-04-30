@@ -1,6 +1,8 @@
 package model.notice;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +30,7 @@ import javax.swing.JWindow;
  *
  */
 @SuppressWarnings("serial")
-public class ImageActions extends JPanel{
+public class ImageActions{
 	
 	/**
 	 * Taille des images.
@@ -38,16 +41,25 @@ public class ImageActions extends JPanel{
 	private JWindow window = new JWindow();
 	
 	/**
+	 * Boutons comment et zoom
+	 */
+	private JButton comment;
+	private JButton zoom;
+	
+	/**
+	 * Checkbox qui permet d'inclure l'image dans la notice.
+	 */
+	private JCheckBox check;
+	
+	/**
 	 * Constructeur.
 	 * @param noticeImage image sur lequel il faut appliquer les actions.
 	 * @param owner frame parent.
 	 */
 	public ImageActions(final JFrame owner, final NoticeImage noticeImage){
-		setLayout(new GridLayout(1,2));
-		
 		
 		// bouton pour commenter
-		JButton comment = new JButton("Comment");
+		comment = new JButton("Comment");
 		comment.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				new CommentDefinition(owner, noticeImage);
@@ -58,7 +70,7 @@ public class ImageActions extends JPanel{
 		
 		
 		// bouton pour zoomer
-		JButton zoom = new JButton("Agrandir");
+		zoom = new JButton("Agrandir");
 		zoom.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -116,9 +128,38 @@ public class ImageActions extends JPanel{
 			}
 		});
 		
-		
-		// ajout des composants
-		add(zoom); add(comment);
+		// checkbox check
+		check = new JCheckBox();
+		check.setSelected(true);
+		check.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				noticeImage.setSelected(check.isSelected());
+			}
+		});
+	}
+	
+	/**
+	 * Retourne le bouton comment.
+	 * @return le bouton comment.
+	 */
+	public JButton getComment() {
+		return comment;
+	}
+
+	/**
+	 * Retourne le bouton zoom.
+	 * @return le bouton zoom.
+	 */
+	public JButton getZoom() {
+		return zoom;
+	}
+	
+	/**
+	 * Retourne le checkbox check.
+	 * @return le checkbox check.
+	 */
+	public JCheckBox getCheck(){
+		return check;
 	}
 	
 	/**

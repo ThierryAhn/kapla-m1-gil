@@ -43,6 +43,9 @@ public class NoticeInterface extends JFrame{
 	 */
 	private JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 
 			PADDING, PADDING));
+	
+	//private JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+	
 	/**
 	 * Liste contenant les images.
 	 */
@@ -55,7 +58,7 @@ public class NoticeInterface extends JFrame{
 	/**
 	 * Taille des images.
 	 */
-	private static int WIDTH = 150;
+	private static int WIDTH = 171;
 	private static int HEIGHT = 150;
 
 	public NoticeInterface(){
@@ -103,19 +106,40 @@ public class NoticeInterface extends JFrame{
 				centerPanel.removeAll();
 				for(NoticeImage noticeImage : arrayImages){
 					try {
+						// creation de l'image
 						BufferedImage originalImage = ImageIO.read(new File(
 								noticeImage.getPath()));
 						BufferedImage resizeImage = resizeImage(
 								originalImage, BufferedImage.TYPE_INT_ARGB);
 						ImageIcon newImageIcon = new ImageIcon(resizeImage);
-
+						
+						// ajout de l'image
 						JLabel tempLabel = new JLabel(newImageIcon);
 						JPanel tempPanel = new JPanel(new BorderLayout());
 						tempPanel.add(tempLabel);
-						tempPanel.add(new ImageActions(NoticeInterface.this, 
-								noticeImage), BorderLayout.SOUTH);
 						
-						centerPanel.add(tempPanel);
+						//  actions boutons
+						ImageActions imageActions = new ImageActions(
+								NoticeInterface.this, noticeImage);
+						JPanel actionsPanel = new JPanel(new BorderLayout());
+						actionsPanel.add(imageActions.getZoom(), 
+								BorderLayout.WEST);
+						actionsPanel.add(imageActions.getComment(), 
+								BorderLayout.EAST);
+						tempPanel.add(actionsPanel, BorderLayout.SOUTH);
+						
+						// action checkbox
+						JPanel checkPanel = new JPanel(new BorderLayout());
+						checkPanel.add(imageActions.getCheck(), 
+								BorderLayout.NORTH);
+						checkPanel.add(new JLabel());
+						
+						// panel qui contient l'image, ses actions
+						JPanel globalPanel = new JPanel(new BorderLayout());
+						globalPanel.add(checkPanel, BorderLayout.EAST);
+						globalPanel.add(tempPanel);
+						
+						centerPanel.add(globalPanel);
 						
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -135,19 +159,16 @@ public class NoticeInterface extends JFrame{
 		generatePdf.setForeground(Color.BLACK);
 		// action bouton
 		generatePdf.addActionListener(new ActionListener(){
-			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				for(NoticeImage noticeImage : arrayImages){
-					GeneratePdf pdf = new GeneratePdf(arrayImages);
-					try {
-						pdf.generate();
-					} catch (MalformedURLException e1) {
-						e1.printStackTrace();
-					} catch (DocumentException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+				GeneratePdf pdf = new GeneratePdf(arrayImages);
+				try {
+					pdf.generate();
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				} catch (DocumentException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
