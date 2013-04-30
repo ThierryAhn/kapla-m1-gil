@@ -15,6 +15,8 @@ public class NoticeImage {
 	 */
 	private String comment;
 	
+	private boolean isSelected;
+	
 	/**
 	 * Constructeur.
 	 * @param path chemin de l'image.
@@ -22,6 +24,7 @@ public class NoticeImage {
 	public NoticeImage(String path){
 		this.path = path;
 		this.comment = "";
+		this.isSelected = true;
 	}
 	
 	/**
@@ -55,5 +58,22 @@ public class NoticeImage {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	/**
+	 * Retourne true si l'image a ete coche, faux sinon.
+	 * @return true si l'image a ete coche, faux sinon.
+	 */
+	public boolean isSelected() {
+		return isSelected;
+	}
+	
+	/**
+	 * Modifie la valeur du checkbox de l'image.
+	 * @param isSelected nouvelle valeur du checkbox de l'image.
+	 */
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+	
 	
 }
