@@ -81,7 +81,9 @@ public class ImageActions extends JPanel{
 						public void mouseEntered(MouseEvent arg0) {}
 
 						@Override
-						public void mouseExited(MouseEvent arg0) {}
+						public void mouseExited(MouseEvent arg0) {
+							window.dispose();
+						}
 
 						@Override
 						public void mousePressed(MouseEvent arg0) {}
