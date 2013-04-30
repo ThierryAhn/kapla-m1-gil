@@ -93,6 +93,7 @@ public class ImageActions extends JPanel{
 					
 					// window qui contient l'image
 					window.setContentPane(label);
+					window.pack();
 					
 					// centrer window
 					Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -102,7 +103,7 @@ public class ImageActions extends JPanel{
 				    		window.getHeight()) / 2);
 				    window.setLocation(x, y);
 					
-					window.pack();
+					
 					window.setVisible(true);
 					
 				} catch (IOException e) {
