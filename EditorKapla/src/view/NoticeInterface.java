@@ -3,18 +3,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.awt.Dimension;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -23,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.itextpdf.text.DocumentException;
 import model.notice.GeneratePdf;
-import model.notice.ImageActions;
+import model.notice.ImageAction;
 import model.notice.NoticeImage;
 
 /**
@@ -43,9 +39,9 @@ public class NoticeInterface extends JFrame{
 	 */
 	private JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 
 			PADDING, PADDING));
-	
+
 	//private JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
-	
+
 	/**
 	 * Liste contenant les images.
 	 */
@@ -54,22 +50,19 @@ public class NoticeInterface extends JFrame{
 	/**
 	 * Padding entre les images.
 	 */
-	private static final int PADDING = 15;
-	/**
-	 * Taille des images.
-	 */
-	private static int WIDTH = 171;
-	private static int HEIGHT = 150;
-
+	private static final int PADDING = 20;
+	
 	public NoticeInterface(){
 		super("New Notice");
 		setLayout(new BorderLayout());
 		setSize(600, 600);
 		
+		centerPanel.setBackground(Color.DARK_GRAY);
+		
 		// centrer la fenetre
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
 		setLocation(x, y);
 
 		// panel de choix du dossier des images
@@ -81,12 +74,12 @@ public class NoticeInterface extends JFrame{
 
 		// bouton de choix du dossier des images
 		JButton chooseFolder = new JButton("Choose Folder");
-		
+
 		// design bouton
 		chooseFolder.setBackground(new Color(128, 15, 1));
 		chooseFolder.setForeground(Color.BLACK);
 		//chooseFolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		
+
 		chooseFolder.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -105,45 +98,23 @@ public class NoticeInterface extends JFrame{
 				// mise a jour du panel des images
 				centerPanel.removeAll();
 				for(NoticeImage noticeImage : arrayImages){
-					try {
-						// creation de l'image
-						BufferedImage originalImage = ImageIO.read(new File(
-								noticeImage.getPath()));
-						BufferedImage resizeImage = resizeImage(
-								originalImage, BufferedImage.TYPE_INT_ARGB);
-						ImageIcon newImageIcon = new ImageIcon(resizeImage);
-						
-						// ajout de l'image
-						JLabel tempLabel = new JLabel(newImageIcon);
-						JPanel tempPanel = new JPanel(new BorderLayout());
-						tempPanel.add(tempLabel);
-						
-						//  actions boutons
-						ImageActions imageActions = new ImageActions(
-								NoticeInterface.this, noticeImage);
-						JPanel actionsPanel = new JPanel(new BorderLayout());
-						actionsPanel.add(imageActions.getZoom(), 
-								BorderLayout.WEST);
-						actionsPanel.add(imageActions.getComment(), 
-								BorderLayout.EAST);
-						tempPanel.add(actionsPanel, BorderLayout.SOUTH);
-						
-						// action checkbox
-						JPanel checkPanel = new JPanel(new BorderLayout());
-						checkPanel.add(imageActions.getCheck(), 
-								BorderLayout.NORTH);
-						checkPanel.add(new JLabel());
-						
-						// panel qui contient l'image, ses actions
-						JPanel globalPanel = new JPanel(new BorderLayout());
-						globalPanel.add(checkPanel, BorderLayout.EAST);
-						globalPanel.add(tempPanel);
-						
-						centerPanel.add(globalPanel);
-						
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					// ajout de l'image
+					ImageAction imageAction = new ImageAction(
+							NoticeInterface.this, noticeImage);
+					
+					
+					// action checkbox
+					JPanel checkPanel = new JPanel(new BorderLayout());
+					checkPanel.setBackground(Color.DARK_GRAY);
+					checkPanel.add(imageAction.getCheck(), 
+							BorderLayout.NORTH);
+					checkPanel.add(new JLabel());
+					
+					JPanel tempPanel = new JPanel(new BorderLayout());
+					//tempPanel.setBackground(Color.DARK_GRAY);
+					tempPanel.add(imageAction);
+					tempPanel.add(checkPanel, BorderLayout.EAST);
+					centerPanel.add(tempPanel);
 				}
 				centerPanel.repaint();
 				centerPanel.validate();
@@ -151,7 +122,7 @@ public class NoticeInterface extends JFrame{
 			}
 
 		});
-		
+
 		JPanel southPanel = new JPanel(new BorderLayout());
 		JButton generatePdf = new JButton("Generer Pdf");
 		// design bouton
@@ -207,23 +178,6 @@ public class NoticeInterface extends JFrame{
 			}
 		}
 	}	
-
-	/**
-	 * Redimensionne une image. 
-	 * @param originalImage l'image d'origine
-	 * @param type type des variables WIDTH et HEIGHT
-	 * @return une image redimensionnee.
-	 */
-	private static BufferedImage resizeImage(BufferedImage originalImage, 
-			int type){
-		
-		BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
-		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(originalImage, 0, 0, WIDTH, HEIGHT, null);
-		g.dispose();
-
-		return resizedImage;	
-	}
 
 }
 
