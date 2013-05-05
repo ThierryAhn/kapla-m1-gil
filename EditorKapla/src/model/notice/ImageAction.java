@@ -36,11 +36,10 @@ public class ImageAction extends JLabel{
 	 */
 	private JCheckBox check;
 
-	public ImageAction(JFrame owner, final NoticeImage noticeImage){
+	public ImageAction(final JFrame owner, final NoticeImage noticeImage){
 		super(new ImageIcon(noticeImage.getPath()));
 		this.noticeImage = noticeImage;
-		comment = new CommentDefinition(owner, this);
-
+		
 		// redimensionnement de l'image
 		try {
 			BufferedImage originalImage = ImageIO.read(new File(
@@ -55,9 +54,12 @@ public class ImageAction extends JLabel{
 
 		// action sur l'image
 		this.addMouseListener(new MouseListener(){
-
+			
+			
+			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				comment = new CommentDefinition(owner, ImageAction.this);
 				comment.setVisible(true);
 			}
 

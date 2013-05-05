@@ -94,6 +94,7 @@ public class NoticeInterface extends JFrame{
 					// recuperation des images du dossier
 					getFiles(imagesPath);
 				}
+				
 
 				// mise a jour du panel des images
 				centerPanel.removeAll();
@@ -101,7 +102,6 @@ public class NoticeInterface extends JFrame{
 					// ajout de l'image
 					ImageAction imageAction = new ImageAction(
 							NoticeInterface.this, noticeImage);
-					
 					
 					// action checkbox
 					JPanel checkPanel = new JPanel(new BorderLayout());
@@ -115,9 +115,12 @@ public class NoticeInterface extends JFrame{
 					tempPanel.add(imageAction);
 					tempPanel.add(checkPanel, BorderLayout.EAST);
 					centerPanel.add(tempPanel);
+					
 				}
 				centerPanel.repaint();
 				centerPanel.validate();
+				
+				
 				add(centerPanel);
 			}
 
@@ -141,7 +144,9 @@ public class NoticeInterface extends JFrame{
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				dispose();
 			}
+			
 		});
 		southPanel.add(new JLabel());
 		southPanel.add(generatePdf, BorderLayout.EAST);
