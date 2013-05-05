@@ -65,7 +65,8 @@ public class ImageAction extends JLabel{
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+				setBorder(BorderFactory.createLineBorder(new Color(128, 15, 1), 
+						2));
 			}
 
 			@Override
