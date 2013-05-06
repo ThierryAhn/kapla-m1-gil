@@ -1,4 +1,4 @@
-package model.notice;
+package util;
 
 import java.awt.Component;
 import java.awt.Container;
