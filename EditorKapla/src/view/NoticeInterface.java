@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,11 +27,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import util.OSValidator;
+import util.WrapLayout;
+
 import com.itextpdf.text.DocumentException;
 import model.notice.GeneratePdf;
 import model.notice.ImageAction;
 import model.notice.NoticeImage;
-import model.notice.WrapLayout;
 
 /**
  * Classe NoticeInterface qui represente l'interface de la notice.
@@ -48,7 +51,7 @@ public class NoticeInterface extends JFrame{
 	 * Panel des images.
 	 */
 	private JPanel centerPanel;
-	
+
 	/**
 	 * Liste contenant les images.
 	 */
@@ -58,133 +61,133 @@ public class NoticeInterface extends JFrame{
 	 * Padding entre les images.
 	 */
 	private static final int PADDING = 40;
-	
+
 	/**
 	 * Barre de progression pour le chargement des images.
 	 */
 	private JProgressBar progressBar;
-	
-	
+
+
 	/**
 	 * Champ de texte qui contient le chemin du repertoire des images.
 	 */
 	private JTextField folderPath = new JTextField();
-	
+
 	/**
 	 * ScrollPane pour les images.
 	 */
 	private JScrollPane scrollPane;
-	
+
 	/**
 	 * Classe interne pour la gestion de la barre de progression.
 	 *
 	 */
 	class MySwingWorker extends SwingWorker<Integer, String> {
-		 
-        public MySwingWorker() {
-            /* On ajoute un écouteur de barre de progression. */
-            addPropertyChangeListener(new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if("progress".equals(evt.getPropertyName())) {
-                        progressBar.setValue((Integer) evt.getNewValue());
-                    }
-                }
-            });
-        }
- 
-        @Override
-        public Integer doInBackground() {
-            return loadImage(0, 100);
-        }
-        
-        /**
-         * Charge les images d'un dossier.
-         * @param progressStart
-         * @param progressEnd
-         * @return
-         */
-        public int loadImage(double progressStart, double progressEnd){
-    		JFileChooser chooser = new JFileChooser();
-    		chooser.setCurrentDirectory(new java.io.File("."));
-    		//chooser.setDialogTitle(choosertitle);
-    		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    		if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-    			folderPath.setText(chooser.getSelectedFile().toString());
-    			imagesPath = chooser.getSelectedFile().toString();
 
-    			// recuperation des images du dossier
-    			getFiles(imagesPath);
-    		}
-    		
-    		
-    		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		public MySwingWorker() {
+			/* On ajoute un ï¿½couteur de barre de progression. */
+			addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					if("progress".equals(evt.getPropertyName())) {
+						progressBar.setValue((Integer) evt.getNewValue());
+					}
+				}
+			});
+		}
 
-    		// mise a jour du panel des images
-    		centerPanel.removeAll();
-    		centerPanel.repaint();
-    		
-    		if(!arrayImages.isEmpty()){
-    			
-    			double step = (progressEnd - progressStart) / 
-    					arrayImages.size();
-    			
-	    		for(NoticeImage noticeImage : arrayImages){
-	    			progressStart += step;
-	    			 
-                    /* Transmet la nouvelle progression. */
-                    setProgress((int) progressStart);
- 
-                    /* Ajout d'un temps d'attente pour observer les changements 
-                       à l'échelle "humaine". */
-                    try {
-                        Thread.sleep(50);
-                    } catch(InterruptedException e) {
-                        e.printStackTrace();
-                    }
-	    			
-	    			// ajout de l'image
-	    			ImageAction imageAction = new ImageAction(
-	    					NoticeInterface.this, noticeImage);
-	    			
-	    			// action checkbox
-	    			JPanel checkPanel = new JPanel(new BorderLayout());
-	    			checkPanel.setBackground(Color.DARK_GRAY);
-	    			checkPanel.add(imageAction.getCheck(), 
-	    					BorderLayout.NORTH);
-	    			checkPanel.add(new JLabel());
-	    			
-	    			JPanel tempPanel = new JPanel(new BorderLayout());
-	    			//tempPanel.setBackground(Color.DARK_GRAY);
-	    			tempPanel.add(imageAction);
-	    			tempPanel.add(checkPanel, BorderLayout.EAST);
-	    			centerPanel.add(tempPanel);
-	    			
-	    		}
-	    		centerPanel.repaint();
-	    		centerPanel.validate();
-    		}
-    		
-    		add(scrollPane);
-    		
-    		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    		return arrayImages.size();
-    	}
- 
-        @Override
-        protected void process(List<String> strings) {
-        }
- 
-        @Override
-        protected void done() {
-            try {
-                /* Le traitement est terminé. */
-                setProgress(100);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-	
+		@Override
+		public Integer doInBackground() {
+			return loadImage(0, 100);
+		}
+
+		/**
+		 * Charge les images d'un dossier.
+		 * @param progressStart
+		 * @param progressEnd
+		 * @return
+		 */
+		public int loadImage(double progressStart, double progressEnd){
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new java.io.File("."));
+			//chooser.setDialogTitle(choosertitle);
+			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+				folderPath.setText(chooser.getSelectedFile().toString());
+				imagesPath = chooser.getSelectedFile().toString();
+
+				// recuperation des images du dossier
+				getFiles(imagesPath);
+			}
+
+
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+			// mise a jour du panel des images
+			centerPanel.removeAll();
+			centerPanel.repaint();
+
+			if(!arrayImages.isEmpty()){
+
+				double step = (progressEnd - progressStart) / 
+				arrayImages.size();
+
+				for(NoticeImage noticeImage : arrayImages){
+					progressStart += step;
+
+					/* Transmet la nouvelle progression. */
+					setProgress((int) progressStart);
+
+					/* Ajout d'un temps d'attente pour observer les changements 
+                       ï¿½ l'ï¿½chelle "humaine". */
+					try {
+						Thread.sleep(50);
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
+
+					// ajout de l'image
+					ImageAction imageAction = new ImageAction(
+							NoticeInterface.this, noticeImage);
+
+					// action checkbox
+					JPanel checkPanel = new JPanel(new BorderLayout());
+					checkPanel.setBackground(Color.DARK_GRAY);
+					checkPanel.add(imageAction.getCheck(), 
+							BorderLayout.NORTH);
+					checkPanel.add(new JLabel());
+
+					JPanel tempPanel = new JPanel(new BorderLayout());
+					//tempPanel.setBackground(Color.DARK_GRAY);
+					tempPanel.add(imageAction);
+					tempPanel.add(checkPanel, BorderLayout.EAST);
+					centerPanel.add(tempPanel);
+
+				}
+				centerPanel.repaint();
+				centerPanel.validate();
+			}
+
+			add(scrollPane);
+
+			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			return arrayImages.size();
+		}
+
+		@Override
+		protected void process(List<String> strings) {
+		}
+
+		@Override
+		protected void done() {
+			try {
+				/* Le traitement est terminï¿½. */
+				setProgress(100);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * Constructeur
 	 */
@@ -192,16 +195,17 @@ public class NoticeInterface extends JFrame{
 		super("New Notice");
 		setLayout(new BorderLayout());
 		setSize(600, 600);
-		
+
 		centerPanel = new JPanel(new WrapLayout(WrapLayout.LEADING, PADDING, 
 				PADDING));
-		
+
+
 		centerPanel.setBackground(Color.DARK_GRAY);
-		
+
 		// barre de progression
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		
+
 		// centrer la fenetre
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -220,17 +224,17 @@ public class NoticeInterface extends JFrame{
 		// design bouton
 		chooseFolder.setBackground(new Color(128, 15, 1));
 		chooseFolder.setForeground(Color.BLACK);
-		
+
 		chooseFolder.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		            	MySwingWorker swingWorker = new MySwingWorker();
-		                swingWorker.execute();
-		            }
-		        });
-		           
-				
+					public void run() {
+						MySwingWorker swingWorker = new MySwingWorker();
+						swingWorker.execute();
+					}
+				});
+
+
 			}
 
 		});
@@ -255,7 +259,7 @@ public class NoticeInterface extends JFrame{
 				}
 				dispose();
 			}
-			
+
 		});
 		southPanel.add(progressBar);
 		southPanel.add(generatePdf, BorderLayout.EAST);
@@ -263,9 +267,9 @@ public class NoticeInterface extends JFrame{
 		// ajout des composants du northPanel
 		northPanel.add(folderPath);
 		northPanel.add(chooseFolder, BorderLayout.EAST);
-		
+
 		scrollPane = new JScrollPane(centerPanel);
-		
+
 		// ajout des panels
 		add(northPanel, BorderLayout.NORTH);
 		add(scrollPane);
@@ -274,7 +278,7 @@ public class NoticeInterface extends JFrame{
 		setVisible(true);
 	}
 
-	
+
 	/**
 	 * Liste les fichiers d'un dossier.
 	 * @param folder dossier dont il faut lister les fichiers.
@@ -283,11 +287,22 @@ public class NoticeInterface extends JFrame{
 		File file = new File(folder);
 		File[] files = file.listFiles();
 
+		OSValidator os = new OSValidator();
+		String slash = "";
+		// detection os
+		if(os.isWindows()){
+			slash = "\\";
+		}else{
+			if(os.isUnix())
+				slash = "//";
+		}
+		
+		
 		arrayImages.clear();
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
 				if(files[i].isDirectory() == false) {
-					NoticeImage noticeImage = new NoticeImage(imagesPath +"\\"
+					NoticeImage noticeImage = new NoticeImage(imagesPath +slash
 							+files[i].getName());
 
 					arrayImages.add(noticeImage);
@@ -295,7 +310,7 @@ public class NoticeInterface extends JFrame{
 			}
 		}
 	}	
-	
+
 }
 
 
