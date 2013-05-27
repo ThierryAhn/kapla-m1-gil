@@ -7,6 +7,7 @@ import de.lessvoid.nifty.builder.EffectBuilder;
 import de.lessvoid.nifty.builder.HoverEffectBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.controls.label.builder.LabelBuilder;
+import de.lessvoid.nifty.controls.textfield.builder.TextFieldBuilder;
 
 public class MenuButtonControlDefinition {
 	private static final String NAME = "menuButtonControl";
@@ -85,4 +86,5 @@ public class MenuButtonControlDefinition {
 			width(width);
 		}};
 	}
+	
 }
