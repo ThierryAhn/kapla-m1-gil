@@ -39,6 +39,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.geomitries.*;
+import model.history.ActionCreate;
+import model.history.ActionDelete;
+import model.history.History;
+import model.history.StdHistory;
 import model.nifty.CommonBuilders;
 import model.nifty.ControlStyles;
 
@@ -93,6 +97,17 @@ implements ActionListener,ScreenController {
 	private boolean rotateLeft = false, rotateRight = false;
 	
 	/**
+	 * 
+	 * 
+	 */
+	private History history;
+	//private boolean transparent;
+	private int nbOfPossibleUndo;
+	private int nbOfPossibleRedo;
+	private ActionCreate ac;
+	private ActionDelete ad;	
+	
+	/**
 	 * Initialisation des variables.
 	 */
 	@Override
@@ -120,6 +135,13 @@ implements ActionListener,ScreenController {
 		camera.setPhysicsLocation(new Vector3f(0,5, 20));
 		// ajout de la camera dans l'espace physique
 		bulletAppState.getPhysicsSpace().add(camera);
+		
+		// CrÃ©ation d'un historique
+		history = new StdHistory();
+		// Initialisation des entiers
+		this.nbOfPossibleRedo = 0;
+		this.nbOfPossibleUndo = 0;
+
 	}
 	
 	@Override
@@ -434,7 +456,16 @@ implements ActionListener,ScreenController {
 							"Button_save", "Sauvegarder"
 							,"Permet de sauvgarder la partie."));
 					panel(builders.hspacer("10px"));
-
+					// Bouton Undo
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_undo", "Dï¿½faire"
+							,"Permet de dï¿½faire une action."));
+					panel(builders.hspacer("10px"));
+					// Bouton Redo
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_redo", "Refaire"
+							,"Permet de refaire une action."));
+					panel(builders.hspacer("10px"));
 				}});
 				
 				// panel vertical
@@ -456,12 +487,12 @@ implements ActionListener,ScreenController {
 		// </screen>
 		nifty.gotoScreen("Screen"); // demarre l'ecran
 		
-		// Controleur pour le bouton de capture d'ecran
+		// Controleur pour le bouton save
 		Element buttonSave = nifty.getCurrentScreen()
 				.findElementByName("Button_save");
 		buttonSave.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "save()", this));
-		// Controleur pour le bouton de capture d'ecran
+		// Controleur pour le bouton load
 		Element buttonLoad = nifty.getCurrentScreen()
 				.findElementByName("Button_load");
 		buttonLoad.getElementInteraction().getPrimary().setOnClickMethod(
@@ -471,6 +502,16 @@ implements ActionListener,ScreenController {
 				.findElementByName("Button_delete");
 		buttonDelete.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "delete()", this));
+		// Controleur pour le bouton undo
+				Element buttonUndo = nifty.getCurrentScreen()
+						.findElementByName("Button_undo");
+				buttonUndo.getElementInteraction().getPrimary().setOnClickMethod(
+						new NiftyMethodInvoker(nifty, "undo()", this));
+				// Controleur pour le bouton redo
+				Element buttonRedo = nifty.getCurrentScreen()
+						.findElementByName("Button_redo");
+				buttonRedo.getElementInteraction().getPrimary().setOnClickMethod(
+						new NiftyMethodInvoker(nifty, "redo()", this));
 
 	}
 
@@ -528,7 +569,7 @@ implements ActionListener,ScreenController {
 	}
 
 	/**
-	 * Permet de supprimer toutes les kaplas selectionnés.
+	 * Permet de supprimer toutes les kaplas selectionnï¿½s.
 	 */
 	public void delete(){
 		Iterator<Brick> iter = brickList.iterator();
@@ -540,6 +581,62 @@ implements ActionListener,ScreenController {
 				iter.remove();
 			}
 		}
+	}
+	
+	/**
+	 * Permet de dï¿½faire une action
+	 */
+	public void undo() {
+		if (nbOfPossibleUndo < 0) {
+			throw new IllegalArgumentException();
+		}
+
+		nbOfPossibleUndo = nbOfPossibleUndo - 1;
+		nbOfPossibleRedo = nbOfPossibleRedo + 1;
+		history.goBackward();
+		System.out.println(history.getCurrentPosition());
+		System.out.println(history.getCurrentElement());
+		System.out.println(history.getCurrentElement().getState());
+		history.getCurrentElement().act();
+		System.out.println("list = " + am.getList());
+	}
+
+	/**
+	 * Permet de refaire une action
+	 */
+	public void redo() {
+		if (nbOfPossibleRedo <= 0) {
+			throw new IllegalArgumentException("Impossible de refaire");
+		}
+		
+		if (history.getCurrentPosition() == -1) {
+			history.goForward();
+		}
+	
+		nbOfPossibleUndo = nbOfPossibleUndo + 1;
+		nbOfPossibleRedo = nbOfPossibleRedo - 1;
+		history.getCurrentElement().act();
+		history.goForward();
+	}
+
+	public int nbOfPossibleUndo() {
+		return nbOfPossibleUndo;
+	}
+
+	public int nbOfPossibleRedo() {
+		return nbOfPossibleRedo;
+	}
+
+	public Node getRootNode() {
+		return rootNode;
+	}
+
+	public Editor getEditor() {
+		return this;
+	}
+
+	public History getHistroy() {
+		return history;
 	}
 
 	@Override
