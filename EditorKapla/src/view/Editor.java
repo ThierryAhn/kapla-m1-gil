@@ -18,6 +18,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyMethodInvoker;
@@ -598,7 +599,7 @@ implements ActionListener,ScreenController {
 		System.out.println(history.getCurrentElement());
 		System.out.println(history.getCurrentElement().getState());
 		history.getCurrentElement().act();
-		System.out.println("list = " + am.getList());
+		//System.out.println("list = " + am.getList());
 	}
 
 	/**
