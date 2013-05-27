@@ -4,8 +4,10 @@ import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
@@ -44,6 +46,7 @@ public class Brick extends Geometry{
 	private static final Box box;
 	private RigidBodyControl brickPhysic;
 	private Material brickMaterial;
+	private static Geometry window_frame;
 	
 	/**
 	 *  Prepare le modele physique (jBullet).
@@ -56,6 +59,7 @@ public class Brick extends Geometry{
 	 */
 	static{
 		box = new Box(brickLength, brickHeight, brickWidth);
+		window_frame = new Geometry("window-frame", box);
 		box.scaleTextureCoordinates(new Vector2f(1f, .5f));
 		
 	}
@@ -179,5 +183,12 @@ public class Brick extends Geometry{
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	public void setTranparency() {
+		float alpha = 136.f;
+		brickMaterial.setColor("Color", new ColorRGBA(1,1,1,alpha / 255.f));
+		brickMaterial.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+		window_frame.setQueueBucket(Bucket.Transparent);
 	}
 }
