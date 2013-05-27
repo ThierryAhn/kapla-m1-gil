@@ -17,6 +17,7 @@ import de.lessvoid.nifty.NiftyMethodInvoker;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
+import de.lessvoid.nifty.controls.textfield.builder.TextFieldBuilder;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.examples.defaultcontrols.common.MenuButtonControlDefinition;
 import de.lessvoid.nifty.screen.DefaultScreenController;
@@ -25,6 +26,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.geomitries.*;
@@ -45,21 +47,23 @@ implements ActionListener, ScreenController {
 	 * Liste des proprietes des briques.
 	 */
 	private ArrayList<BrickProperties> brickListProperties;
+	private ArrayList<Brick> brickList;
 
 	private ScreenshotAppState screenShotState;
 	private NiftyJmeDisplay niftyDisplay;
 	private Nifty nifty;
 
+	private int etape=0;
 	/**
 	 * Mise en place du physique.
 	 */
 	private BulletAppState bulletAppState;
-	
+
 	/**
 	 * Camera.
 	 */
 	private CharacterControl camera;
-	
+
 	private Vector3f cameraPosition = new Vector3f();
 	/**
 	 * Activation de la rotation de la camera.
@@ -69,7 +73,7 @@ implements ActionListener, ScreenController {
 	 * Activation du zoom de la camera.
 	 */
 	private boolean zoom = false, dezoom = false;
-	
+
 	/**
 	 * Initialisation des variables.
 	 */
@@ -77,20 +81,21 @@ implements ActionListener, ScreenController {
 	public void simpleInitApp() {
 		screenShotState = new ScreenshotAppState();
 		this.stateManager.attach(screenShotState);
+		brickList = new ArrayList<Brick>();
 		// mise en place du physique
 		bulletAppState = new BulletAppState();
 		stateManager.attach(bulletAppState);
-		
+
 		// creation du sol et de la table.
 		createRoom();
 		createTable();
-		
+
 		initListeners();
 		initNifty();
-		
+
 		mouseInput.setCursorVisible(true);
 		flyCam.setEnabled(false); 
-		
+
 		CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(
 				1f, 6f, 1);
 		camera = new CharacterControl(capsuleShape, 0.00f);
@@ -121,14 +126,14 @@ implements ActionListener, ScreenController {
 	public void simpleRender(RenderManager rm) {
 		//TODO: add render code
 	}
-	
+
 	/**
 	 * Main
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		EditorExract app = new EditorExract();
-		
+
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
 		gameSettings.setResolution(640, 480);
@@ -139,7 +144,7 @@ implements ActionListener, ScreenController {
 		gameSettings.setFrameRate(500);
 		gameSettings.setSamples(0);
 		gameSettings.setRenderer("LWJGL-OpenGL2");
-		
+
 		app.settings = gameSettings;
 		app.setShowSettings(false);
 		app.setDisplayStatView(false);
@@ -147,10 +152,10 @@ implements ActionListener, ScreenController {
 		// Pour enlever les lignes ecrites a chaque fois dans le terminal par nifty
 		Logger.getLogger("de.lessvoid.nifty").setLevel(Level.SEVERE); 
 		Logger.getLogger("NiftyInputEventHandlingLog").setLevel(Level.SEVERE);
-		
+
 		app.start();
 	}
-	
+
 	/**
 	 * Creation et ajout de la table.
 	 */
@@ -162,7 +167,7 @@ implements ActionListener, ScreenController {
 		}
 		rootNode.attachChild(table);
 	}
-	
+
 	/**
 	 * Cree la salle autour de la table
 	 */
@@ -172,7 +177,7 @@ implements ActionListener, ScreenController {
 			rootNode.attachChild(room.getWalls(i));
 		}
 	}
-	
+
 	/**
 	 * Initialisation des ecouteurs.
 	 */
@@ -190,7 +195,7 @@ implements ActionListener, ScreenController {
 		inputManager.addListener(this, "Up");
 		inputManager.addListener(this, "Down");
 	}   
-	
+
 	/**
 	 * Initialise nifty avec les boutons.
 	 */
@@ -223,23 +228,63 @@ implements ActionListener, ScreenController {
 					backgroundColor("#5588");
 					childLayoutHorizontal();
 					padding("20px");
-					
+
 					// bouton charger
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_load", "Charger"
 							,"Permet de charger une partie enregistree."));
 					panel(builders.hspacer("10px"));
-					
+
 					//bouton de capture d'ecran
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_shot", "Capture d'ecran"
 							,"Permet de prendre une capture d'ecran."));
 					panel(builders.hspacer("10px"));
-					
+
 					//bouton creer notice
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_notice", "Creer Notice"
 							,"Permet de creer une notice sous format pdf."));
+					panel(builders.hspacer("20px"));
+
+					// button debut
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_first", "<|"
+							,"Passer à la première étape.","20px"));
+					panel(builders.hspacer("10px"));
+
+					// button precedent
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_previous", "<<"
+							,"Passer à l'étape précédente.","20px"));
+					panel(builders.hspacer("10px"));
+
+
+					// textfield numero etape
+					control(new TextFieldBuilder("mainTextField") {{
+						width("*");
+						alignLeft();
+						valignCenter();
+						textHAlignLeft();
+					}});
+
+					panel(builders.hspacer("10px"));
+
+					// label numero etape
+					control(builders.createLabel(etape + "/"+brickList.size(),"50px"));
+
+
+
+					// button precedent
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_next", ">>"
+							,"Passer à l'étape suivante.","20px"));
+					panel(builders.hspacer("10px"));
+
+					// button debut
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_end", "|>"
+							,"Passer à la dernière étape.","20px"));
 					panel(builders.hspacer("10px"));
 				}});
 			}});
@@ -248,24 +293,44 @@ implements ActionListener, ScreenController {
 		}}.build(nifty));
 		// demarer l'ecran
 		nifty.gotoScreen("Screen");
-		
+
 		// Controleur pour le bouton de capture d'ecran
 		Element buttonShot = nifty.getCurrentScreen()
-		.findElementByName("Button_shot");
+				.findElementByName("Button_shot");
 		buttonShot.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "takeShot()", this));
-		
+
 		// Controleur pour le bouton de chargement
 		Element buttonLoad = nifty.getCurrentScreen()
-		.findElementByName("Button_load");
+				.findElementByName("Button_load");
 		buttonLoad.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "load()", this));
-		
+
 		// Controleur pour le bouton creer notice
 		Element buttonNotice = nifty.getCurrentScreen()
-		.findElementByName("Button_notice");
+				.findElementByName("Button_notice");
 		buttonNotice.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "createNotice()", this));
+		// Controleur pour le bouton debut
+		Element buttonFirst = nifty.getCurrentScreen()
+				.findElementByName("Button_first");
+		buttonFirst.getElementInteraction().getPrimary().setOnClickMethod(
+				new NiftyMethodInvoker(nifty, "first()", this));
+		// Controleur pour le bouton precedent
+		Element buttonPrevious = nifty.getCurrentScreen()
+				.findElementByName("Button_previous");
+		buttonPrevious.getElementInteraction().getPrimary().setOnClickMethod(
+				new NiftyMethodInvoker(nifty, "previous()", this));
+		// Controleur pour le bouton suivant
+		Element buttonNext = nifty.getCurrentScreen()
+				.findElementByName("Button_next");
+		buttonNext.getElementInteraction().getPrimary().setOnClickMethod(
+				new NiftyMethodInvoker(nifty, "next()", this));
+		// Controleur pour le bouton fin
+		Element buttonEnd = nifty.getCurrentScreen()
+				.findElementByName("Button_end");
+		buttonEnd.getElementInteraction().getPrimary().setOnClickMethod(
+				new NiftyMethodInvoker(nifty, "end()", this));
 	}
 
 	public void onAction(String name, boolean isPressed, float tpf) {
@@ -309,6 +374,8 @@ implements ActionListener, ScreenController {
 	@SuppressWarnings("unchecked")
 	public void load (){
 		try{
+			detachBricks();
+			brickList.clear();
 			FileInputStream fichier = new FileInputStream(
 					System.getProperty("user.home")+"/ListBrick.ser");
 			ObjectInputStream ois = new ObjectInputStream(fichier);
@@ -316,17 +383,56 @@ implements ActionListener, ScreenController {
 			Brick brick;
 			for (BrickProperties brickP : brickListProperties){
 				brick = new Brick(brickP, bulletAppState, assetManager).makeBrick();
-				rootNode.attachChild(brick);
+				brickList.add(brick);
 			}
+			for (Brick brickP : brickList){
+				rootNode.attachChild(brickP);
+			}
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void first(){
+		if(brickList.size()!= 0){
+			detachBricks();
+			rootNode.attachChild(brickList.get(0));
+			etape = 1;
+		}
+	}
+
+	public void previous(){
+		if (etape > 1){
+			rootNode.detachChild(brickList.get(etape-- -1));
+		}
+	}
+
+	public void next(){
+		if (etape < brickList.size()){
+			rootNode.attachChild(brickList.get(etape++));
+		}
+	}
+
+	public void end(){
+		detachBricks();
+		for (Brick brickP : brickList){
+			rootNode.attachChild(brickP);
+		}
+		etape = brickList.size();
+	}
 	/**
 	 * Cree une notice sous format pdf
 	 */
 	public void createNotice(){
 		new NoticeInterface();
+	}
+
+	public void detachBricks(){
+		Iterator<Brick> iter = brickList.iterator();
+		while(iter.hasNext()){
+			Brick brickTemp = (Brick)iter.next();	
+			rootNode.detachChild(brickTemp);
+		}
 	}
 }
