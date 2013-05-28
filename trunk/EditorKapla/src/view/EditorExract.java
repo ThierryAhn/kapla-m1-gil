@@ -474,6 +474,7 @@ implements ActionListener, ScreenController {
 					rootNode.attachChild(brickList.get(i));
 				}
 				etape = etap;
+				mainLabel.setText(etape+"/"+brickList.size());
 			}
 		}
 	}
