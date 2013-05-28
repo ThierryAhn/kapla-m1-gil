@@ -17,7 +17,11 @@ import de.lessvoid.nifty.NiftyMethodInvoker;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
+import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.controls.textfield.builder.TextFieldBuilder;
+import de.lessvoid.nifty.controls.textfield.filter.input.FilterAcceptDigits;
+import de.lessvoid.nifty.controls.textfield.filter.input.FilterAcceptRegex;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.examples.defaultcontrols.common.MenuButtonControlDefinition;
 import de.lessvoid.nifty.screen.DefaultScreenController;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import model.geomitries.*;
 import model.nifty.CommonBuilders;
 import model.nifty.ControlStyles;
@@ -42,12 +47,15 @@ public class EditorExract extends SimpleApplication
 implements ActionListener, ScreenController {
 
 	private static CommonBuilders builders = new CommonBuilders();
-	private ControlStyles styles;  
+	private ControlStyles styles;
+	private TextField mainTextField;
+	private Label mainLabel;
 	/**
 	 * Liste des proprietes des briques.
 	 */
 	private ArrayList<BrickProperties> brickListProperties;
 	private ArrayList<Brick> brickList;
+
 
 	private ScreenshotAppState screenShotState;
 	private NiftyJmeDisplay niftyDisplay;
@@ -73,6 +81,15 @@ implements ActionListener, ScreenController {
 	 * Activation du zoom de la camera.
 	 */
 	private boolean zoom = false, dezoom = false;
+
+
+	public ArrayList<Brick> getBrickList() {
+		return brickList;
+	}
+
+	public void setBrickList(ArrayList<Brick> brickList) {
+		this.brickList = brickList;
+	}
 
 	/**
 	 * Initialisation des variables.
@@ -102,6 +119,9 @@ implements ActionListener, ScreenController {
 		camera.setGravity(0);
 		camera.setPhysicsLocation(new Vector3f(1,10, 20));
 		bulletAppState.getPhysicsSpace().add(camera);
+
+		this.mainTextField = nifty.getScreen("Screen").findNiftyControl("mainTextField", TextField.class);
+		this.mainLabel =  nifty.getScreen("Screen").findNiftyControl("mainLabel", Label.class);
 	}
 
 	@Override
@@ -251,13 +271,13 @@ implements ActionListener, ScreenController {
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_first", "<|"
 							,"Passer à la première étape.","20px"));
-					panel(builders.hspacer("10px"));
+					panel(builders.hspacer("5px"));
 
 					// button precedent
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_previous", "<<"
 							,"Passer à l'étape précédente.","20px"));
-					panel(builders.hspacer("10px"));
+					panel(builders.hspacer("5px"));
 
 
 					// textfield numero etape
@@ -267,25 +287,29 @@ implements ActionListener, ScreenController {
 						valignCenter();
 						textHAlignLeft();
 					}});
-
-					panel(builders.hspacer("10px"));
+					panel(builders.hspacer("5px"));
 
 					// label numero etape
-					control(builders.createLabel(etape + "/"+brickList.size(),"50px"));
-
+					control(builders.createLabel("mainLabel",etape + "/"+brickList.size(),"50px"));
+					panel(builders.hspacer("5px"));
+					
+					// button precedent
+					control(MenuButtonControlDefinition.getControlBuilder(
+							"Button_go", "go"
+							,"Passer à l'étape choisie","20px"));
+					panel(builders.hspacer("5px"));
 
 
 					// button precedent
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_next", ">>"
 							,"Passer à l'étape suivante.","20px"));
-					panel(builders.hspacer("10px"));
+					panel(builders.hspacer("5px"));
 
 					// button debut
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_end", "|>"
 							,"Passer à la dernière étape.","20px"));
-					panel(builders.hspacer("10px"));
 				}});
 			}});
 
@@ -331,6 +355,11 @@ implements ActionListener, ScreenController {
 				.findElementByName("Button_end");
 		buttonEnd.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "end()", this));
+		// controleur pour le textfield
+		Element go = nifty.getCurrentScreen()
+				.findElementByName("Button_go");
+		go.getElementInteraction().getPrimary().setOnClickMethod(
+				new NiftyMethodInvoker(nifty, "getEtape()", this));
 	}
 
 	public void onAction(String name, boolean isPressed, float tpf) {
@@ -349,17 +378,11 @@ implements ActionListener, ScreenController {
 		}
 	}
 
-	public void bind(Nifty nifty, Screen screen) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+	public void bind(Nifty nifty, Screen screen) { }
 
-	public void onStartScreen() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+	public void onStartScreen() { }
 
-	public void onEndScreen() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+	public void onEndScreen() { }
 
 	/**
 	 * Prendre une capture d'ecran.
@@ -388,7 +411,8 @@ implements ActionListener, ScreenController {
 			for (Brick brickP : brickList){
 				rootNode.attachChild(brickP);
 			}
-
+			etape = brickList.size();
+			mainLabel.setText(etape+"/"+brickList.size());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -399,18 +423,21 @@ implements ActionListener, ScreenController {
 			detachBricks();
 			rootNode.attachChild(brickList.get(0));
 			etape = 1;
+			mainLabel.setText(etape+"/"+brickList.size());
 		}
 	}
 
 	public void previous(){
 		if (etape > 1){
 			rootNode.detachChild(brickList.get(etape-- -1));
+			mainLabel.setText(etape+"/"+brickList.size());
 		}
 	}
 
 	public void next(){
 		if (etape < brickList.size()){
 			rootNode.attachChild(brickList.get(etape++));
+			mainLabel.setText(etape+"/"+brickList.size());
 		}
 	}
 
@@ -420,6 +447,8 @@ implements ActionListener, ScreenController {
 			rootNode.attachChild(brickP);
 		}
 		etape = brickList.size();
+		mainLabel.setText(etape+"/"+brickList.size());
+
 	}
 	/**
 	 * Cree une notice sous format pdf
@@ -434,5 +463,31 @@ implements ActionListener, ScreenController {
 			Brick brickTemp = (Brick)iter.next();	
 			rootNode.detachChild(brickTemp);
 		}
+	}
+
+	public void getEtape(){
+		detachBricks();
+		if (isNumeric(mainTextField.getText())){
+			int etap = Integer.parseInt(mainTextField.getText());
+			if (etap>0 && etap<=brickList.size()){
+				for (int i=0;i<etap;i++){
+					rootNode.attachChild(brickList.get(i));
+				}
+				etape = etap;
+			}
+		}
+	}
+
+	public static boolean isNumeric(String str) {  
+		try  
+		{  
+			@SuppressWarnings("unused")
+			Integer d = Integer.parseInt(str);  
+		}  
+		catch(NumberFormatException nfe)  
+		{  
+			return false;  
+		}  
+		return true;  
 	}
 }
