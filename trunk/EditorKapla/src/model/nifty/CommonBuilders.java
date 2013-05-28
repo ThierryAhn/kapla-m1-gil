@@ -77,6 +77,8 @@ public class CommonBuilders {
 			alignLeft();
 			textVAlignCenter();
 			textHAlignLeft();
+			valignCenter();
+			textHAlignLeft();
 		}};
 	}
 
