@@ -223,6 +223,7 @@ implements ActionListener,ScreenController {
 		gameSettings.setResolution(640, 480);
 		gameSettings.setFullscreen(false);
 		gameSettings.setVSync(false);
+		
 		gameSettings.setTitle("Kapla Editor");
 		gameSettings.setUseInput(true);
 		gameSettings.setFrameRate(500);
@@ -569,8 +570,8 @@ implements ActionListener,ScreenController {
 					panel(builders.hspacer("10px"));
 					// Bouton Undo
 					control(MenuButtonControlDefinition.getControlBuilder(
-							"Button_undo", "D�faire"
-							,"Permet de d�faire une action."));
+							"Button_undo", "Defaire"
+							,"Permet de defaire une action."));
 					panel(builders.hspacer("10px"));
 					// Bouton Redo
 					control(MenuButtonControlDefinition.getControlBuilder(
@@ -734,37 +735,34 @@ implements ActionListener,ScreenController {
 	/**
 	 * Permet de d�faire une action
 	 */
-	public void undo() {
-		if (nbOfPossibleUndo < 0) {
-			throw new IllegalArgumentException();
-		}
-
-		nbOfPossibleUndo = nbOfPossibleUndo - 1;
-		nbOfPossibleRedo = nbOfPossibleRedo + 1;
-		history.goBackward();
-		System.out.println(history.getCurrentPosition());
-		System.out.println(history.getCurrentElement());
-		System.out.println(history.getCurrentElement().getState());
-		history.getCurrentElement().act();
-		//System.out.println("list = " + am.getList());
+	public void undo(){
+		try{
+			nbOfPossibleUndo = nbOfPossibleUndo - 1;
+			nbOfPossibleRedo = nbOfPossibleRedo + 1;
+			history.goBackward();
+			System.out.println(history.getCurrentPosition());
+			System.out.println(history.getCurrentElement());
+			System.out.println(history.getCurrentElement().getState());
+			history.getCurrentElement().act();
+		}catch(IllegalArgumentException e){}
 	}
 
 	/**
 	 * Permet de refaire une action
 	 */
 	public void redo() {
-		if (nbOfPossibleRedo <= 0) {
-			throw new IllegalArgumentException("Impossible de refaire");
-		}
-		
-		if (history.getCurrentPosition() == -1) {
-			history.goForward();
-		}
+		try{
+			if (history.getCurrentPosition() == -1) {
+				history.goForward();
+			}
+			
 	
-		nbOfPossibleUndo = nbOfPossibleUndo + 1;
-		nbOfPossibleRedo = nbOfPossibleRedo - 1;
-		history.getCurrentElement().act();
-		history.goForward();
+			nbOfPossibleUndo = nbOfPossibleUndo + 1;
+			nbOfPossibleRedo = nbOfPossibleRedo - 1;
+			history.getCurrentElement().act();
+			history.goForward();
+		}catch(IndexOutOfBoundsException e){}
+		catch(IllegalArgumentException e){}
 	}
 
 	public int nbOfPossibleUndo() {
