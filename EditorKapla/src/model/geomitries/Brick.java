@@ -4,6 +4,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
@@ -60,10 +61,19 @@ public class Brick extends Geometry{
 	private BulletAppState bulletAppState;
 	private boolean isPhysic;
 
+	
 	/**
 	 * la Texture
 	 */
 	TextureKey myText = new TextureKey();
+	
+	
+	/**
+	 * le result de la collision
+	 */
+	CollisionResults results = new CollisionResults();
+	
+	
 	
 	/**
 	 * Instanciation de la brique.
@@ -87,6 +97,7 @@ public class Brick extends Geometry{
 		brickMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 		
 		myText = new TextureKey("Textures/BrickPomme.jpg");
+		//brickProperties.setMyText("BrickPomme");
 		myText.setGenerateMips(true);
 		Texture tex3 = assetManager.loadTexture(myText);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);
@@ -104,6 +115,7 @@ public class Brick extends Geometry{
 		Texture tex3 = assetManager.loadTexture(myText);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);
 		brickMaterial.setTexture("ColorMap", tex3);
+		brickProperties.setMyText(s);
 	}
 	
 	/**
@@ -122,7 +134,6 @@ public class Brick extends Geometry{
 		Texture tex3 = assetManager.loadTexture(myText);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);
 		brickMaterial.setTexture("ColorMap", tex3);
-		
 	}
 	
 	/**
@@ -256,12 +267,12 @@ public class Brick extends Geometry{
 	 */
 	public float rotateUp() {
 		if (rotateBrickV >= 3 || rotateBrickV <= -3){
-			brickProperties.setRotateBrickH(rotateBrickV = 0);
+			brickProperties.setRotateBrickV(rotateBrickV = 0);
 			return rotateBrickV = 0;
 			
 		}
 		else{
-			brickProperties.setRotateBrickH(rotateBrickV+= 0.005);
+			brickProperties.setRotateBrickV(rotateBrickV+= 0.005);
 			return rotateBrickV+= 0.005;
 		}
 	}
@@ -272,11 +283,11 @@ public class Brick extends Geometry{
 	 */
 	public float rotateDown() {
 		if (rotateBrickV >= 3 || rotateBrickV <= -3){
-			brickProperties.setRotateBrickH(rotateBrickV = 0);
+			brickProperties.setRotateBrickV(rotateBrickV = 0);
 			return rotateBrickV = 0;
 		}
 		else{
-			brickProperties.setRotateBrickH(rotateBrickV-= 0.005);
+			brickProperties.setRotateBrickV(rotateBrickV-= 0.005);
 			return rotateBrickV-= 0.005;
 		}
 	}
@@ -402,13 +413,6 @@ public class Brick extends Geometry{
 		return brickHeightCalcul;
 	}
 	
-	/*
-	public void setTranparency() {
-		float alpha = 136.f;
-		brickMaterial.setColor("Color", new ColorRGBA(1,1,1,alpha / 255.f));
-		brickMaterial.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-		window_frame.setQueueBucket(Bucket.Transparent);
-	}
-	*/
+	
 	
 }
