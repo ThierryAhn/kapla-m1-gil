@@ -17,6 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,7 +43,6 @@ import model.notice.NoticeImage;
  */
 @SuppressWarnings("serial")
 public class NoticeInterface extends JFrame{
-
 	/**
 	 * Chemin du dossier des images.
 	 */
@@ -85,7 +85,7 @@ public class NoticeInterface extends JFrame{
 	class MySwingWorker extends SwingWorker<Integer, String> {
 
 		public MySwingWorker() {
-			/* On ajoute un �couteur de barre de progression. */
+			/* On ajoute un ecouteur de barre de progression. */
 			addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					if("progress".equals(evt.getPropertyName())) {
@@ -138,7 +138,7 @@ public class NoticeInterface extends JFrame{
 					setProgress((int) progressStart);
 
 					/* Ajout d'un temps d'attente pour observer les changements 
-                       � l'�chelle "humaine". */
+                       echelle "humaine". */
 					try {
 						Thread.sleep(50);
 					} catch(InterruptedException e) {
@@ -180,7 +180,7 @@ public class NoticeInterface extends JFrame{
 		@Override
 		protected void done() {
 			try {
-				/* Le traitement est termin�. */
+				/* Le traitement est termine. */
 				setProgress(100);
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -297,7 +297,6 @@ public class NoticeInterface extends JFrame{
 				slash = "//";
 		}
 		
-		
 		arrayImages.clear();
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
@@ -310,6 +309,10 @@ public class NoticeInterface extends JFrame{
 			}
 		}
 	}	
+	
+	public static void main(String [] args){
+		new NoticeInterface(args[0]);
+	}
 
 }
 
