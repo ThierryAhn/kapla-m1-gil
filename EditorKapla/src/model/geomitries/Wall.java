@@ -53,10 +53,10 @@ public class Wall extends Geometry{
 	/**
 	 * Initialise la texture du mur.
 	 */
-	private void initMaterials() {
+	private void initMaterials(String s) {
 		wallMaterial = new Material(assetManager, 
 		"Common/MatDefs/Misc/Unshaded.j3md");
-		TextureKey key3 = new TextureKey("Textures/floor.jpg");
+		TextureKey key3 = new TextureKey("Textures/"+s+".jpg");
 		key3.setGenerateMips(true);
 		Texture tex3 = assetManager.loadTexture(key3);
 		tex3.setWrap(Texture.WrapMode.Repeat);
@@ -67,8 +67,8 @@ public class Wall extends Geometry{
 	 * Cree le mur et le rend physique.
 	 * @return un mur cree.
 	 */
-	public Wall makeWall(Vector3f vec) {
-		initMaterials();
+	public Wall makeWall(Vector3f vec,String s) {
+		initMaterials(s);
 		setMaterial(wallMaterial);
 		setLocalTranslation(vec);
 		// rend le mur physique avec un poids de 0

@@ -63,13 +63,13 @@ public class Table extends Geometry{
 		this.assetManager = assetManager;
 		
 		tableLeg[0] = new TableLeg(bulletAppState, assetManager).makeTableLeg(
-                new Vector3f(7.7f, -2.5f, -4.7f));
+                new Vector3f(7.7f, -2.6f, -4.7f));
 		tableLeg[1] = new TableLeg(bulletAppState, assetManager).makeTableLeg(
-                new Vector3f(-7.7f, -2.5f, 4.7f));
+                new Vector3f(-7.7f, -2.6f, 4.7f));
 		tableLeg[2] = new TableLeg(bulletAppState, assetManager).makeTableLeg(
-                new Vector3f(-7.7f, -2.5f, -4.7f));
+                new Vector3f(-7.7f, -2.6f, -4.7f));
 		tableLeg[3] = new TableLeg(bulletAppState, assetManager).makeTableLeg(
-                new Vector3f(7.7f, -2.5f, 4.7f));
+                new Vector3f(7.7f, -2.6f, 4.7f));
 		
 	}
 	
@@ -79,7 +79,7 @@ public class Table extends Geometry{
 	private void initMaterials() {
 		tableMaterial = new Material(assetManager,
 				"Common/MatDefs/Misc/Unshaded.j3md");
-		TextureKey key3 = new TextureKey("Textures/table.jpg");
+		TextureKey key3 = new TextureKey("Textures/bois.jpg");
 		key3.setGenerateMips(true);
 		Texture tex3 = assetManager.loadTexture(key3);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);

@@ -23,6 +23,15 @@ public class BrickProperties implements Serializable{
 	 */
 	private ColorRGBA color;
 	
+	
+	/**
+	 * Rotation de la brique
+	 */
+	private float rotateBrickH=0;
+	private float rotateBrickV=0;
+	
+	
+
 	/**
 	 * Initialise une brique avec l'identifiant, la position et la couleur.
 	 * @param id identifiant de la brique.
@@ -82,4 +91,22 @@ public class BrickProperties implements Serializable{
 	public void setColor(ColorRGBA color) {
 		this.color = color;
 	}
+	
+	
+	public float getRotateBrickH() {
+		return rotateBrickH;
+	}
+
+	public void setRotateBrickH(float rotateBrickH) {
+		this.rotateBrickH = rotateBrickH;
+	}
+
+	public float getRotateBrickV() {
+		return rotateBrickV;
+	}
+
+	public void setRotateBrickV(float rotateBrickV) {
+		this.rotateBrickV = rotateBrickV;
+	}
+	
 }
