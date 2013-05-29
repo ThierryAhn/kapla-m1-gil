@@ -45,6 +45,11 @@ import model.nifty.ControlStyles;
 @SuppressWarnings("deprecation")
 public class EditorExract extends SimpleApplication 
 implements ActionListener, ScreenController {
+	/**
+	 * Login de l'utilisateur
+	 */
+	private static String user;
+
 
 	private static CommonBuilders builders = new CommonBuilders();
 	private ControlStyles styles;
@@ -153,7 +158,10 @@ implements ActionListener, ScreenController {
 	 */
 	public static void main(String[] args) {
 		EditorExract app = new EditorExract();
-
+		
+		// recuperation du login de user
+		user = args[0];
+		
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
 		gameSettings.setResolution(640, 480);
@@ -292,7 +300,7 @@ implements ActionListener, ScreenController {
 					// label numero etape
 					control(builders.createLabel("mainLabel",etape + "/"+brickList.size(),"50px"));
 					panel(builders.hspacer("5px"));
-					
+
 					// button precedent
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_go", "go"
@@ -400,7 +408,8 @@ implements ActionListener, ScreenController {
 			detachBricks();
 			brickList.clear();
 			FileInputStream fichier = new FileInputStream(
-					System.getProperty("user.home")+"/ListBrick.ser");
+					//System.getProperty("user.home")+"/ListBrick.ser");
+					"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
 			ObjectInputStream ois = new ObjectInputStream(fichier);
 			brickListProperties = (ArrayList<BrickProperties>) ois.readObject();
 			Brick brick;
@@ -454,7 +463,7 @@ implements ActionListener, ScreenController {
 	 * Cree une notice sous format pdf
 	 */
 	public void createNotice(){
-		new NoticeInterface();
+		new NoticeInterface(user);
 	}
 
 	public void detachBricks(){

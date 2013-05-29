@@ -14,15 +14,22 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GeneratePdf {
-	
+	/**
+	 * Liste images
+	 */
 	private ArrayList<NoticeImage> arrayImages;
+	/**
+	 * Login utilisateur
+	 */
+	private String user;
 	
 	/**
 	 * Constructeur.
 	 * @param arrayImages liste d'images a inserer dans le pdf.
 	 */
-	public GeneratePdf(ArrayList<NoticeImage> arrayImages){
+	public GeneratePdf(ArrayList<NoticeImage> arrayImages, String user){
 		this.arrayImages = arrayImages;
+		this.user = user;
 	}
 	
 	/**
@@ -51,7 +58,7 @@ public class GeneratePdf {
 				IOException{
 		Document document = new Document();
 		PdfWriter.getInstance(document, 
-				new FileOutputStream("Notice.pdf"));
+				new FileOutputStream("C:/wamp/www/Kapla_site/users/"+user +"/notices/Notice.pdf"));
 		document.open();
 		
 		Paragraph paragraph = new Paragraph("Notice");

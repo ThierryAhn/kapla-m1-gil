@@ -191,7 +191,7 @@ public class NoticeInterface extends JFrame{
 	/**
 	 * Constructeur
 	 */
-	public NoticeInterface(){
+	public NoticeInterface(final String user){
 		super("New Notice");
 		setLayout(new BorderLayout());
 		setSize(600, 600);
@@ -247,7 +247,7 @@ public class NoticeInterface extends JFrame{
 		// action bouton
 		generatePdf.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				GeneratePdf pdf = new GeneratePdf(arrayImages);
+				GeneratePdf pdf = new GeneratePdf(arrayImages, user);
 				try {
 					pdf.generate();
 				} catch (MalformedURLException e1) {
