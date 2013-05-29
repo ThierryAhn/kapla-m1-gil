@@ -79,7 +79,7 @@ public class Table extends Geometry{
 	private void initMaterials() {
 		tableMaterial = new Material(assetManager,
 				"Common/MatDefs/Misc/Unshaded.j3md");
-		TextureKey key3 = new TextureKey("Textures/bois.jpg");
+		TextureKey key3 = new TextureKey("Textures/table.jpg");
 		key3.setGenerateMips(true);
 		Texture tex3 = assetManager.loadTexture(key3);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);
