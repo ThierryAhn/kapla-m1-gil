@@ -311,7 +311,8 @@ public class NoticeInterface extends JFrame{
 	}	
 	
 	public static void main(String [] args){
-		new NoticeInterface(args[0]);
+		//new NoticeInterface(args[0]);
+		new NoticeInterface(System.getProperty("user.home"));
 	}
 
 }
