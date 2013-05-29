@@ -24,17 +24,17 @@ public class Room {
 	 */
 	public Room(BulletAppState bulletAppState,AssetManager assetManager) {
 		walls[0] =  new Wall(bulletAppState, assetManager,30f,0.5f,30f).makeWall(
-				new Vector3f(0, -5f, 0));
+				new Vector3f(0, -5f, 0),"moquette");
 		walls[1] =  new Wall(bulletAppState, assetManager,30f,20f,0.5f).makeWall(
-				new Vector3f(0, 14.5f, -30.5f));
+				new Vector3f(0, 14.5f, -30.5f),"parquet");
 		walls[2] =  new Wall(bulletAppState, assetManager,30f,20f,0.5f).makeWall(
-				new Vector3f(0, 14.5f, 30.5f));
+				new Vector3f(0, 14.5f, 30.5f),"parquet");
 		walls[3] =  new Wall(bulletAppState, assetManager,0.5f,20f,30f).makeWall(
-				new Vector3f(-30.5f, 14.5f, 0));
+				new Vector3f(-30.5f, 14.5f, 0),"parquet");
 		walls[4] =  new Wall(bulletAppState, assetManager,0.5f,20f,30f).makeWall(
-				new Vector3f(30.5f, 14.5f, 0));
+				new Vector3f(30.5f, 14.5f, 0),"parquet");
 		walls[5] =  new Wall(bulletAppState, assetManager,30f,0.5f,30f).makeWall(
-				new Vector3f(0, 34.5f, 0));
+				new Vector3f(0, 34.5f, 0),"parquet");
 	}
 
 	/**

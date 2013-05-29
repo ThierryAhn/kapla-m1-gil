@@ -67,7 +67,7 @@ public class TableLeg extends Geometry{
 	private void initMaterials() {
 		tableLegMaterial = new Material(assetManager,
 				"Common/MatDefs/Misc/Unshaded.j3md");
-		TextureKey key3 = new TextureKey("Textures/table.jpg");
+		TextureKey key3 = new TextureKey("Textures/bois2.jpg");
 		key3.setGenerateMips(true);
 		Texture tex3 = assetManager.loadTexture(key3);
 		tex3.setWrap(Texture.WrapMode.MirroredRepeat);
