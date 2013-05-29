@@ -161,7 +161,7 @@ implements ActionListener, ScreenController {
 		EditorExract app = new EditorExract();
 		
 		// recuperation du login de user
-//		user = args[0];
+		user = args[0];
 		
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
@@ -268,13 +268,7 @@ implements ActionListener, ScreenController {
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_shot", "Capture d'ecran"
 							,"Permet de prendre une capture d'ecran."));
-					panel(builders.hspacer("10px"));
-
-					//bouton creer notice
-					control(MenuButtonControlDefinition.getControlBuilder(
-							"Button_notice", "Creer Notice"
-							,"Permet de creer une notice sous format pdf."));
-					panel(builders.hspacer("20px"));
+					panel(builders.hspacer("100px"));
 
 					// button debut
 					control(MenuButtonControlDefinition.getControlBuilder(
@@ -291,7 +285,7 @@ implements ActionListener, ScreenController {
 
 					// textfield numero etape
 					control(new TextFieldBuilder("mainTextField") {{
-						width("*");
+						width("100px");
 						alignLeft();
 						valignCenter();
 						textHAlignLeft();
@@ -338,12 +332,7 @@ implements ActionListener, ScreenController {
 				.findElementByName("Button_load");
 		buttonLoad.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "load()", this));
-
-		// Controleur pour le bouton creer notice
-		Element buttonNotice = nifty.getCurrentScreen()
-				.findElementByName("Button_notice");
-		buttonNotice.getElementInteraction().getPrimary().setOnClickMethod(
-				new NiftyMethodInvoker(nifty, "createNotice()", this));
+		
 		// Controleur pour le bouton debut
 		Element buttonFirst = nifty.getCurrentScreen()
 				.findElementByName("Button_first");
@@ -397,6 +386,7 @@ implements ActionListener, ScreenController {
 	 * Prendre une capture d'ecran.
 	 */
 	public void takeShot() {
+		screenShotState.setFilePath("C:/wamp/www/Kapla_site/users/"+user +"/images/");
 		screenShotState.takeScreenshot();
 	}
 
@@ -459,12 +449,6 @@ implements ActionListener, ScreenController {
 		etape = brickList.size();
 		mainLabel.setText(etape+"/"+brickList.size());
 
-	}
-	/**
-	 * Cree une notice sous format pdf
-	 */
-	public void createNotice(){
-		new NoticeInterface(user);
 	}
 
 	public void detachBricks(){
