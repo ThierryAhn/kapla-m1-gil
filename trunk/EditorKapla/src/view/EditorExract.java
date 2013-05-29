@@ -127,6 +127,7 @@ implements ActionListener, ScreenController {
 
 		this.mainTextField = nifty.getScreen("Screen").findNiftyControl("mainTextField", TextField.class);
 		this.mainLabel =  nifty.getScreen("Screen").findNiftyControl("mainLabel", Label.class);
+		
 	}
 
 	@Override
@@ -160,7 +161,7 @@ implements ActionListener, ScreenController {
 		EditorExract app = new EditorExract();
 		
 		// recuperation du login de user
-		user = args[0];
+//		user = args[0];
 		
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
