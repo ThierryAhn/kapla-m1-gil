@@ -10,12 +10,10 @@ import view.Editor;
 public class ActionDelete extends AbstractAction {
 
 	// ATTRIBUTS
-	
 	private int idBrick;
 	private Brick brick;
 
 	// CONSTRUCTEUR
-	
 	/**
 	 * Constructeur de la classe ActionDelete
 	 * @param editor
@@ -28,15 +26,15 @@ public class ActionDelete extends AbstractAction {
 		this.brick = brick;
 	}
 
-	// REQU�TES	
+	// REQUETES	
 	/**
-	 * L'id de la pi�ce
+	 * L'id de la piece
 	 */
 	public int getIdBrick() {
 		return idBrick;
 	}
 	/**
-	 * La kapla
+	 * La piece
 	 */
 	public Brick getBrick() {
 		return brick;
@@ -45,7 +43,7 @@ public class ActionDelete extends AbstractAction {
 	// COMMANDES
 	
 	/**
-	 * M�thode permettant de supprimer un kapla
+	 * Methode permettant de supprimer une piece
 	 */
 	@Override
 	public void doIt() {
@@ -53,7 +51,7 @@ public class ActionDelete extends AbstractAction {
 	}
 
 	/**
-	 * M�thode permettant de cr�er un kapla
+	 * Methode permettant de creer une piece
 	 */
 	@Override
 	public void undoIt() {

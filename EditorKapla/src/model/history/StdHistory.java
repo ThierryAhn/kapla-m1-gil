@@ -8,23 +8,32 @@ public class StdHistory implements History {
 	// ATTRIBUTS
 	private int currentPosition;
 	private int endPosition;
-	//private ArrayList<String> historyList;
 	private ArrayList<AbstractAction> historyList;
 
 	// CONSTRUCTEURS
+	/**
+	 * Constructeur de la classe StdHistory
+	 */
 	public StdHistory() {
 		this.currentPosition = 0;
 		this.endPosition = 0;
-		//this.historyList = new ArrayList<String>();
 		this.historyList = new ArrayList<AbstractAction>();
 	}
 
 	// REQUETES
+	/**
+	 * La position courante dans l'historique
+	 * return currentPosition
+	 */
 	@Override
 	public int getCurrentPosition() {
 		return currentPosition;
 	}
 
+	/**
+	 * L'element courant dans l'historique
+	 * return historyList.get(currentPosition)
+	 */
 	@Override
 	public AbstractAction getCurrentElement() {
 		if (getCurrentPosition() < 0) {
@@ -33,25 +42,38 @@ public class StdHistory implements History {
 		return historyList.get(currentPosition);
 	}
 
+	/**
+	 * La position de fin de l'historique
+	 * return endPosition
+	 */
 	@Override
 	public int getEndPosition() {
 		return endPosition;
 	}
 
+	/**
+	 * La taille de l'historique
+	 * return historyList.size()
+	 */
 	public int getSize() {
 		return historyList.size();
 	}
 
-	public List getAllElement() {
+	/**
+	 * Tous les elements de l'historique
+	 */
+	public List<AbstractAction> getAllElement() {
 		return historyList;
 
 	}
 
 	//COMMANDES
-	@Override
+	/**
+	 * Ajouter un element dans l'historique
+	 */
 	public void add(AbstractAction action) {
 		if (action == null) {
-			throw new IllegalArgumentException("L'action ne peut �tre nulle");
+			throw new IllegalArgumentException("L'action ne peut etre nulle");
 		}
 		if (getCurrentPosition() <= -1) {
 			for (int i = 0; i< historyList.size(); i++) {
@@ -75,6 +97,9 @@ public class StdHistory implements History {
 		}
 	}
 
+	/**
+	 * Avancer le curseur
+	 */
 	@Override
 	public void goForward() {
 		if (getCurrentPosition() > getEndPosition()) {
@@ -83,6 +108,9 @@ public class StdHistory implements History {
 		currentPosition = currentPosition + 1;
 	}
 
+	/**
+	 * Reculer le curseur
+	 */
 	@Override
 	public void goBackward() {
 		if (getCurrentPosition() < 0) {

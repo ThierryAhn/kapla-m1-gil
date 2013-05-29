@@ -4,18 +4,16 @@ import view.Editor;
 import model.geomitries.Brick;
 
 /**
- * Classe ActionCreate qui permet de créer un kapla
+ * Classe ActionCreate qui permet de creer un kapla
  * @author Groupe C M1 GIL.
  */
 public class ActionCreate extends AbstractAction {
 
 	// ATTRIBUTS
-	
 	private int idBrick;
 	private Brick brick;
 
 	// CONSTRUCTEUR
-	
 	/**
 	 * Constructeur de la classe ActionCreate
 	 * @param editor
@@ -31,13 +29,13 @@ public class ActionCreate extends AbstractAction {
 	// REQUETES
 	
 	/**
-	 * L'id de la pièce 
+	 * L'id de la piece 
 	 */
 	public int getIdBrick() {
 		return idBrick;
 	}
 	/**
-	 * La kapla
+	 * La piece
 	 */
 	public Brick getBrick() {
 		return brick;
@@ -46,7 +44,7 @@ public class ActionCreate extends AbstractAction {
 	// COMMANDES
 	
 	/**
-	 * Méthode permettant de créer un kapla
+	 * Methode permettant de creer une piece
 	 */
 	@Override
 	public void doIt() {
@@ -54,7 +52,7 @@ public class ActionCreate extends AbstractAction {
 	}
 
 	/**
-	 * Méthode permettant de supprimer un kapla
+	 * Methode permettant de supprimer une piece
 	 */
 	@Override
 	public void undoIt() {
