@@ -386,7 +386,7 @@ implements ActionListener, ScreenController {
 	 * Prendre une capture d'ecran.
 	 */
 	public void takeShot() {
-		screenShotState.setFilePath("C:/wamp/www/Kapla_site/users/"+user +"/images/");
+		//screenShotState.setFilePath("C:/wamp/www/Kapla_site/users/"+user +"/images/");
 		screenShotState.takeScreenshot();
 	}
 

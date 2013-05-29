@@ -58,7 +58,9 @@ public class GeneratePdf {
 				IOException{
 		Document document = new Document();
 		PdfWriter.getInstance(document, 
-				new FileOutputStream("C:/wamp/www/Kapla_site/users/"+user +"/notices/Notice.pdf"));
+				//new FileOutputStream("C:/wamp/www/Kapla_site/users/"+user +"/notices/Notice.pdf"));
+				new FileOutputStream(System.getProperty("user.home") +"/Notice.pdf"));
+				
 		document.open();
 		
 		Paragraph paragraph = new Paragraph("Notice");

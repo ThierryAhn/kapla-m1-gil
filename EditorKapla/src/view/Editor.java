@@ -70,12 +70,23 @@ implements ActionListener,ScreenController {
 	private ControlStyles styles;  
 	private NiftyJmeDisplay niftyDisplay;
 	private Nifty nifty;
+	/**
+	 * Liste des briques.
+	 */
 	private ArrayList<Brick> brickList;
+	/**
+	 * Gestion historique.
+	 */
 	private History history;
-
-	//	private ActionMove am;
+	/**
+	 * Nombre possibles de defaire.
+	 */
 	private int nbOfPossibleUndo;
+	/**
+	 * Nombre possibles de refaire.
+	 */
 	private int nbOfPossibleRedo;
+	
 	private ActionCreate ac;
 	private ActionDelete ad;
 
@@ -113,7 +124,6 @@ implements ActionListener,ScreenController {
 	/**
 	 * Activation de la rotation de la piece.
 	 */
-	//verification de la rotation
 	private boolean verif=false;
 	/**
 	 * Activation de la rotation de la piece.
@@ -122,17 +132,15 @@ implements ActionListener,ScreenController {
 	private boolean rotateUp = false, rotateDown = false;
 
 	/**
-	 *  Auteur de la caméra
+	 *  Auteur de la camera
 	 */
 	private int camHauteur=0;
 
 	/**
-	 *  vérifier si le jeu est en mode physic 
+	 *  verifier si le jeu est en mode physic 
 	 */
 
 	private boolean GamePhysic= false;
-
-
 
 	/**
 	 * le result de la collision
@@ -140,9 +148,8 @@ implements ActionListener,ScreenController {
 	CollisionResults results = new CollisionResults();
 
 	/**
-	 * Button Button_physic;
+	 * Texte d'indication d'activation du model physique.
 	 */
-//	 private Button Button_physic;
 	private Label mainLabel;
 	/**
 	 * Initialisation des variables.
@@ -371,7 +378,7 @@ implements ActionListener,ScreenController {
 	 */
 	public static void main(String[] args) {
 		Editor app = new Editor();
-		user = args[0];
+		//user = args[0];
 		
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
@@ -1039,8 +1046,8 @@ implements ActionListener,ScreenController {
 	public void save() {
 		try {
 			FileOutputStream fichier = new FileOutputStream(
-					//System.getProperty("user.home")+"/ListBrick.ser");
-					"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
+					System.getProperty("user.home")+"/ListBrick.ser");
+					//"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fichier);
 			ArrayList<BrickProperties> listBP = new ArrayList<BrickProperties>();
 			for(Brick bri : brickList){
@@ -1063,8 +1070,8 @@ implements ActionListener,ScreenController {
 	public void load (){
 		try{
 			FileInputStream fichier = new FileInputStream(
-					//System.getProperty("user.home")+"/ListBrick.ser");
-					"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
+					System.getProperty("user.home")+"/ListBrick.ser");
+					//"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
 			ObjectInputStream ois = new ObjectInputStream(fichier);
 			List<BrickProperties> Liste = (ArrayList<BrickProperties>) ois.readObject();
 			removeAllKaplas();
