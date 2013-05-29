@@ -1,6 +1,9 @@
 package model.geomitries;
 
 import java.io.Serializable;
+
+import com.jme3.asset.TextureKey;
+import com.jme3.collision.CollisionResults;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 
@@ -23,7 +26,18 @@ public class BrickProperties implements Serializable{
 	 */
 	private ColorRGBA color;
 	
+	/**
+	 * le result de la collision
+	 */
+	CollisionResults results ;
 	
+	/**
+	 * la Texture
+	 */
+	String myText = null;
+
+	
+
 	/**
 	 * Rotation de la brique
 	 */
@@ -107,6 +121,19 @@ public class BrickProperties implements Serializable{
 
 	public void setRotateBrickV(float rotateBrickV) {
 		this.rotateBrickV = rotateBrickV;
+	}
+	
+	public CollisionResults getResults() {
+		return results;
+	}
+
+
+	public String getMyText() {
+		return myText;
+	}
+
+	public void setMyText(String s) {
+		this.myText = s;
 	}
 	
 }
