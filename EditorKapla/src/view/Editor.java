@@ -61,7 +61,12 @@ import de.lessvoid.nifty.screen.ScreenController;
 @SuppressWarnings("deprecation")
 public class Editor extends SimpleApplication 
 implements ActionListener,ScreenController {
-
+	
+	/**
+	 * Login de l'utilisateur
+	 */
+	private static String user;
+	
 	private static CommonBuilders builders = new CommonBuilders();
 	private ControlStyles styles;  
 	private NiftyJmeDisplay niftyDisplay;
@@ -351,7 +356,10 @@ implements ActionListener,ScreenController {
 	 */
 	public static void main(String[] args) {
 		Editor app = new Editor();
-
+		
+		// recuperation du login de user
+		user = args[0];
+		
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
 		gameSettings.setResolution(640, 480);
@@ -964,7 +972,8 @@ implements ActionListener,ScreenController {
 	public void save() {
 		try {
 			FileOutputStream fichier = new FileOutputStream(
-					System.getProperty("user.home")+"/ListBrick.ser");
+					//System.getProperty("user.home")+"/ListBrick.ser");
+					"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fichier);
 			ArrayList<BrickProperties> listBP = new ArrayList<BrickProperties>();
 			for(Brick bri : brickList){
@@ -987,7 +996,8 @@ implements ActionListener,ScreenController {
 	public void load (){
 		try{
 			FileInputStream fichier = new FileInputStream(
-					System.getProperty("user.home")+"/ListBrick.ser");
+					//System.getProperty("user.home")+"/ListBrick.ser");
+					"C:/wamp/www/Kapla_site/users/"+user +"/constructions/ListBrick.ser");
 			ObjectInputStream ois = new ObjectInputStream(fichier);
 			List<BrickProperties> Liste = (ArrayList<BrickProperties>) ois.readObject();
 			removeAllKaplas();
