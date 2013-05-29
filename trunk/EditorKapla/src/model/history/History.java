@@ -3,14 +3,14 @@ package model.history;
 import java.util.List;
 
 /**
- * Une interface sp�cifiant les fonctionnalit�s d'un outil de gestion d'historique.
- * On peut avancer et reculer le curseur rep�rant l'�l�ment courant �
- * loisir dans l'historique, mais si le curseur n'est pas sur l'�l�ment le 
- * plus r�cent, ajouter un �l�ment dans l'historique � cet instant fait 
- * dispara�tre les �l�ments post�rieurs au curseur.
+ * Une interface specifiant les fonctionnalites d'un outil de gestion d'historique.
+ * On peut avancer et reculer le curseur reperant l'element courant a
+ * loisir dans l'historique, mais si le curseur n'est pas sur l'element le 
+ * plus recent, ajouter un element dans l'historique a cet instant fait 
+ * disparaitre les elements posterieurs au curseur.
  * 
  *  
- * @author CHARLEROY Andr�
+ * @author Groupe C M1GIL 2013
  *
  */
 
@@ -22,28 +22,35 @@ public interface History{
 	 */
 	int getCurrentPosition();
 	/**
-	 * L'�l�ment d�sign� par la position courante.
+	 * L'element designe par la position courante.
 	 * @pre <pre>
 	 *     getCurrentPosition() > 0 </pre>
 	 */
 	AbstractAction getCurrentElement();
 	/**
-	 * La derni�re position de l'historique.
+	 * La derniere position de l'historique.
 	 */
 	int getEndPosition();
-	
+	/**
+	 * La taille de l'historique
+	 * @return size
+	 */
 	int getSize();
 	
+	/**
+	 * Liste des elements de l'historique
+	 * @return tous les elements
+	 */
 	List getAllElement();
 
 	// COMMANDES
 
 	/**
-	 * Ajoute l'�l�ment <code>e</code> � la suite de l'�l�ment courant
-	 *  et supprime les �l�ments post�rieurs � cet �l�ment courant.
-	 * S'il n'y a pas d'�l�ment courant, ajoute simplement <code>e</code>
-	 *  comme premier �l�ment.
-	 * L'�l�ment <code>e</code> devient le nouvel �l�ment courant.
+	 * Ajoute l'element <code>e</code> a la suite de l'element courant
+	 *  et supprime les elements posterieurs a cet element courant.
+	 * S'il n'y a pas d'element courant, ajoute simplement <code>e</code>
+	 *  comme premier element.
+	 * L'element <code>e</code> devient le nouvel element courant.
 	 * @pre <pre>
 	 *     e != null </pre>
 	 * @post <pre>
@@ -55,7 +62,7 @@ public interface History{
 	 */
 	void add(AbstractAction action);
 	/**
-	 * Avance le curseur dans la direction du plus r�cent �l�ment.
+	 * Avance le curseur dans la direction du plus recent element.
 	 * @pre <pre>
 	 *     getCurrentPosition() < getEndPosition() </pre>
 	 * @post <pre>
@@ -63,12 +70,11 @@ public interface History{
 	 */
 	void goForward();
 	/**
-	 * Recule le curseur dans la direction du plus ancien �l�ment.
+	 * Recule le curseur dans la direction du plus ancien element.
 	 * @pre <pre>
 	 *     getCurrentPosition() > 0 </pre>
 	 * @post <pre>
 	 *     getCurrentPosition() == old getCurrentPosition() - 1 </pre>
 	 */
 	void goBackward();
-	
 }
