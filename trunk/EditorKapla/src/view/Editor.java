@@ -61,12 +61,12 @@ import de.lessvoid.nifty.screen.ScreenController;
 @SuppressWarnings("deprecation")
 public class Editor extends SimpleApplication 
 implements ActionListener,ScreenController {
-	
+
 	/**
 	 * Login de l'utilisateur
 	 */
 	private static String user;
-	
+
 	private static CommonBuilders builders = new CommonBuilders();
 	private ControlStyles styles;  
 	private NiftyJmeDisplay niftyDisplay;
@@ -74,7 +74,7 @@ implements ActionListener,ScreenController {
 	private ArrayList<Brick> brickList;
 	private History history;
 
-//	private ActionMove am;
+	//	private ActionMove am;
 	private int nbOfPossibleUndo;
 	private int nbOfPossibleRedo;
 	private ActionCreate ac;
@@ -121,27 +121,27 @@ implements ActionListener,ScreenController {
 	 */
 	private boolean rotateLeft = false, rotateRight = false;
 	private boolean rotateUp = false, rotateDown = false;
-	
+
 	/**
 	 *  Auteur de la caméra
 	 */
 	private int camHauteur=0;
-	
+
 	/**
 	 *  vérifier si le jeu est en mode physic 
 	 */
 
 	private boolean GamePhysic= false;
-	 
+
 	/**
 	 * le result de la collision
 	 */
 	CollisionResults results = new CollisionResults();
-	
+
 	/**
 	 * Initialisation des variables.
 	 */
-	
+
 	@Override
 	public void simpleInitApp() {
 		cameraPosition = new Vector3f();
@@ -187,7 +187,7 @@ implements ActionListener,ScreenController {
 		if(down)       { cameraPosition.addLocal(camUp.negate());camHauteur--; }
 		if(zoom)       { cameraPosition.addLocal(camDir); }
 		if(dezoom)     { cameraPosition.addLocal(camDir.negate()); }
-		
+
 		// si rotation a gauche
 		if ((results.size()>0)&&
 				(results.getCollision(0).getGeometry().getName().equals("brick")) 
@@ -213,9 +213,9 @@ implements ActionListener,ScreenController {
 				//mettre à jour dans la liste
 				for (Brick brickTemp : brickList){
 					if (brickTemp.getBrickProperties().getId() 
-								== brick.getBrickProperties().getId()){
-							brickTemp.getBrickProperties().setPosition(
-									brick.getLocalTranslation());
+							== brick.getBrickProperties().getId()){
+						brickTemp.getBrickProperties().setPosition(
+								brick.getLocalTranslation());
 					}
 				}	
 			}
@@ -238,13 +238,13 @@ implements ActionListener,ScreenController {
 					brick.setBrickLengthCalcul(brick.getBrickLength());
 					brick.setBrickWidthCalcul(brick.getBrickWidth());
 				}
-				
+
 				//mettre à jour dans la liste
 				for (Brick brickTemp : brickList){
 					if (brickTemp.getBrickProperties().getId() 
-								== brick.getBrickProperties().getId()){
-							brickTemp.getBrickProperties().setPosition(
-									brick.getLocalTranslation());
+							== brick.getBrickProperties().getId()){
+						brickTemp.getBrickProperties().setPosition(
+								brick.getLocalTranslation());
 					}
 				}
 			}
@@ -286,13 +286,13 @@ implements ActionListener,ScreenController {
 						verif =false;
 					}
 				}
-			
+
 				//mettre à jour dans la liste
 				for (Brick brickTemp : brickList){
 					if (brickTemp.getBrickProperties().getId() 
-								== brick.getBrickProperties().getId()){
-							brickTemp.getBrickProperties().setPosition(
-									brick.getLocalTranslation());
+							== brick.getBrickProperties().getId()){
+						brickTemp.getBrickProperties().setPosition(
+								brick.getLocalTranslation());
 					}
 				}
 			}
@@ -334,13 +334,13 @@ implements ActionListener,ScreenController {
 						verif =false;
 					}		
 				}
-				
+
 				//mettre à jour dans la liste
 				for (Brick brickTemp : brickList){
 					if (brickTemp.getBrickProperties().getId() 
-								== brick.getBrickProperties().getId()){
-							brickTemp.getBrickProperties().setPosition(
-									brick.getLocalTranslation());
+							== brick.getBrickProperties().getId()){
+						brickTemp.getBrickProperties().setPosition(
+								brick.getLocalTranslation());
 					}
 				}
 			}
@@ -356,10 +356,10 @@ implements ActionListener,ScreenController {
 	 */
 	public static void main(String[] args) {
 		Editor app = new Editor();
-		
+
 		// recuperation du login de user
 		user = args[0];
-		
+
 		// parametres de la fenetre
 		AppSettings gameSettings = new AppSettings(false);
 		gameSettings.setResolution(640, 480);
@@ -436,7 +436,7 @@ implements ActionListener,ScreenController {
 		inputManager.addListener(this, "rotateLeft");
 		inputManager.addListener(this, "rotateUp");
 		inputManager.addListener(this, "rotateDown");
-		
+
 		//les couleurs
 		inputManager.addMapping("couleur1", new KeyTrigger(KeyInput.KEY_1));
 		inputManager.addListener(this, "couleur1");
@@ -482,20 +482,20 @@ implements ActionListener,ScreenController {
 				if (GamePhysic == false){
 					brick = new Brick(new BrickProperties(brickComptor++,
 							new Vector3f(tempRes), null), bulletAppState,
-									assetManager).makeBrick();
+							assetManager).makeBrick();
 				}
 				else{
 					brick = new Brick(new BrickProperties(brickComptor++,
 							new Vector3f(tempRes), null), bulletAppState,
-									assetManager).makeBrick2();
-					
+							assetManager).makeBrick2();
+
 				}
 				if (results.size() > 0){
 					brick.getBrickProperties().setPosition(new Vector3f(tempRes));
 				}else{
 					brick.getBrickProperties().setPosition(new Vector3f(
 							new Vector3f(dir.x/100+cam.getLocation().x,
-							dir.y/100+cam.getLocation().y,0)));
+									dir.y/100+cam.getLocation().y,0)));
 				}
 				// ajout de la brique dans la liste
 				brickList.add(brick);
@@ -506,7 +506,7 @@ implements ActionListener,ScreenController {
 				nbOfPossibleUndo += 1;
 				history.add(ac);
 			}
-			
+
 			// si une brique selectionnee
 			if (name.equals("select") && !keyPressed) {
 				CollisionResults results = new CollisionResults();
@@ -525,7 +525,7 @@ implements ActionListener,ScreenController {
 					Geometry target = results.getCollision(0).getGeometry();
 					if (target.getName().equals("brick") ) {
 						brick = (Brick) results.getCollision(0).getGeometry();
-						
+
 						Iterator<Brick> iter = brickList.iterator();
 						// parcours des briques selectionnees
 						while(iter.hasNext()){
@@ -548,7 +548,7 @@ implements ActionListener,ScreenController {
 	 */
 	private AnalogListener analogListener = new AnalogListener() {    
 		public void onAnalog(String name, float value, float tpf) { 	
-			 results = new CollisionResults();
+			results = new CollisionResults();
 			// convertit le clic sur l'ecran en coordonnees 3d
 			Vector2f click2d = inputManager.getCursorPosition();
 			Vector3f click3d = cam.getWorldCoordinates(new Vector2f(
@@ -560,171 +560,171 @@ implements ActionListener,ScreenController {
 				la liste results */
 			rootNode.collideWith(ray, results);
 			if ((results.size()>0)&&
-				(results.getCollision(0).getGeometry().getName().equals("brick")) 
-				&& (results.getCollision(0).getGeometry()== brick)){
+					(results.getCollision(0).getGeometry().getName().equals("brick")) 
+					&& (results.getCollision(0).getGeometry()== brick)){
 				// si deplacement de la brique
 				if (name.equals("drag")) {
 					//moteur physique
 					Vector3f v = results.getCollision(0).getContactPoint();										
 					System.out.println(camHauteur);
 					//condition pour la caméra, si l'on souhaite en rajouter par la suite
-						
-						if(cam.getLeft().clone().multLocal(0.2f).x <=0){
-							brick.setLocalTranslation(v.x ,  brick.getBrickProperties().getPosition().y, v.z);
-							results.getCollision(0).getGeometry().setLocalTranslation(
-									v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+
+					if(cam.getLeft().clone().multLocal(0.2f).x <=0){
+						brick.setLocalTranslation(v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+						results.getCollision(0).getGeometry().setLocalTranslation(
+								v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+					}
+					else{
+						brick.setLocalTranslation(v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+						results.getCollision(0).getGeometry().setLocalTranslation(
+								v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+					}
+					// Position de la brique en cours de mouvement
+					float brickX = brick.getBrickProperties().getPosition().getX();
+					float brickY = brick.getBrickProperties().getPosition().getY();
+					float brickZ = brick.getBrickProperties().getPosition().getZ();
+					int nbBrickSurLaPile = 0;
+					for (Brick brickTemp : brickList)
+					{
+						// Position de la brique qu'on est en train de comparer
+						float brickTempX = brickTemp.getBrickProperties().getPosition().getX();
+						float brickTempZ = brickTemp.getBrickProperties().getPosition().getZ();
+						brickTemp.getBrickProperties().getPosition().getX();
+						brickTemp.getBrickProperties().getPosition().getX();
+						if (brickTemp!=brick)
+						{
+							// On vérifie si on est sur la même position qu'une autre brique
+							if(Math.abs(brickX-brickTempX)<brickTemp.getBrickLengthCalcul()+ brick.getBrickLengthCalcul())
+							{
+								if(Math.abs(brickZ-brickTempZ)<brickTemp.getBrickWidthCalcul()+brick.getBrickWidthCalcul())
+								{	
+									nbBrickSurLaPile++;
+									System.out.println("5");
+									System.out.println("------ ma brique  " +brick.getRotateBrickV()+" " + brick.getBrickLengthCalcul()+"------ "+ brick.getBrickHeightCalcul());
+									System.out.println("------ ma temp  " + brickTemp.getRotateBrickV()+" " + brickTemp.getBrickLengthCalcul()+"------ "+ brickTemp.getBrickHeightCalcul());				
 								}
-						else{
-							brick.setLocalTranslation(v.x ,  brick.getBrickProperties().getPosition().y, v.z);
-							results.getCollision(0).getGeometry().setLocalTranslation(
-									v.x ,  brick.getBrickProperties().getPosition().y, v.z);
+							}
 						}
-						// Position de la brique en cours de mouvement
-						float brickX = brick.getBrickProperties().getPosition().getX();
-						float brickY = brick.getBrickProperties().getPosition().getY();
-						float brickZ = brick.getBrickProperties().getPosition().getZ();
-						int nbBrickSurLaPile = 0;
+					}						
+					// On gère le cas ou ya deja au moins une brique à notre position
+					if (nbBrickSurLaPile != 0)
+					{
+						// On recherche la brique la plus haute de cette pile
+						Brick brickLaplusHaute = chercherBriqueLaPlusHaute(brickX,brickY,brickZ);
+
+						// On vérifie si on est en haut de la pile ou pas
+						if (brick.getBrickProperties().getId() == brickLaplusHaute.getBrickProperties().getId()
+								|| brickY > brickLaplusHaute.getBrickProperties().getPosition().getY()
+								)
+						{
+							// On est tout en haut de la pile ==> on peut rester dessus
+							brick.setLocalTranslation(brickX,brickY,brickZ);
+						}
+						else
+						{
+							System.out.println("7");
+							System.out.println("brick.getBrickHeightCalcul()  "+ brick.getBrickHeightCalcul());
+							System.out.println("brickLaplusHaute.getBrickHeightCalcul()  "+ brickLaplusHaute.getBrickHeightCalcul());
+							if (brick.getBrickHeightCalcul()==brickLaplusHaute.getBrickHeightCalcul()){
+								System.out.println("boucle 1");
+								brick.setLocalTranslation(brickX,brickY+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZ);
+							}
+							else if (brick.getBrickHeightCalcul()<brickLaplusHaute.getBrickHeightCalcul()){
+								System.out.println("boucle 2");
+								brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()*2+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZ);
+
+							}
+							else if (brick.getBrickHeightCalcul()>brickLaplusHaute.getBrickHeightCalcul()){
+								System.out.println("boucle 3");
+								brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZ);	
+							}
+						}
+					}
+					else if(brickY != brick.getBrickHeightCalcul())
+					{
+						float brickXSauv =brickX;
+						float brickYSauv =brickY;
+						float brickZSauv =brickZ;
+						// On revérifie tout avec le Y en moins
+						nbBrickSurLaPile = 0;
 						for (Brick brickTemp : brickList)
 						{
 							// Position de la brique qu'on est en train de comparer
 							float brickTempX = brickTemp.getBrickProperties().getPosition().getX();
 							float brickTempZ = brickTemp.getBrickProperties().getPosition().getZ();
-							brickTemp.getBrickProperties().getPosition().getX();
-							brickTemp.getBrickProperties().getPosition().getX();
+
 							if (brickTemp!=brick)
 							{
 								// On vérifie si on est sur la même position qu'une autre brique
 								if(Math.abs(brickX-brickTempX)<brickTemp.getBrickLengthCalcul()+ brick.getBrickLengthCalcul())
 								{
 									if(Math.abs(brickZ-brickTempZ)<brickTemp.getBrickWidthCalcul()+brick.getBrickWidthCalcul())
-									{	
+									{
 										nbBrickSurLaPile++;
-										System.out.println("5");
-										System.out.println("------ ma brique  " +brick.getRotateBrickV()+" " + brick.getBrickLengthCalcul()+"------ "+ brick.getBrickHeightCalcul());
-										System.out.println("------ ma temp  " + brickTemp.getRotateBrickV()+" " + brickTemp.getBrickLengthCalcul()+"------ "+ brickTemp.getBrickHeightCalcul());				
+										System.out.println("5 bis");
 									}
 								}
 							}
-						}						
+						}
 						// On gère le cas ou ya deja au moins une brique à notre position
 						if (nbBrickSurLaPile != 0)
 						{
 							// On recherche la brique la plus haute de cette pile
 							Brick brickLaplusHaute = chercherBriqueLaPlusHaute(brickX,brickY,brickZ);
-							
 							// On vérifie si on est en haut de la pile ou pas
 							if (brick.getBrickProperties().getId() == brickLaplusHaute.getBrickProperties().getId()
-								|| brickY > brickLaplusHaute.getBrickProperties().getPosition().getY()
-							)
+									|| brickY > brickLaplusHaute.getBrickProperties().getPosition().getY()
+									)
 							{
 								// On est tout en haut de la pile ==> on peut rester dessus
-								brick.setLocalTranslation(brickX,brickY,brickZ);
+								brick.setLocalTranslation(brickXSauv,brickYSauv,brickZSauv);
 							}
 							else
 							{
-								System.out.println("7");
-								System.out.println("brick.getBrickHeightCalcul()  "+ brick.getBrickHeightCalcul());
-								System.out.println("brickLaplusHaute.getBrickHeightCalcul()  "+ brickLaplusHaute.getBrickHeightCalcul());
+								//On est pas tout en haut de la pile ==> on veut monter dessus
 								if (brick.getBrickHeightCalcul()==brickLaplusHaute.getBrickHeightCalcul()){
 									System.out.println("boucle 1");
-									brick.setLocalTranslation(brickX,brickY+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZ);
+									brick.setLocalTranslation(brickX,brickY+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
 								}
 								else if (brick.getBrickHeightCalcul()<brickLaplusHaute.getBrickHeightCalcul()){
 									System.out.println("boucle 2");
-									brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()*2+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZ);
-									
+									brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()*2+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
+
 								}
 								else if (brick.getBrickHeightCalcul()>brickLaplusHaute.getBrickHeightCalcul()){
 									System.out.println("boucle 3");
-									brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZ);	
+									brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
 								}
-							}
-						}
-						else if(brickY != brick.getBrickHeightCalcul())
-						{
-							float brickXSauv =brickX;
-							float brickYSauv =brickY;
-							float brickZSauv =brickZ;
-							// On revérifie tout avec le Y en moins
-							nbBrickSurLaPile = 0;
-							for (Brick brickTemp : brickList)
-							{
-								// Position de la brique qu'on est en train de comparer
-								float brickTempX = brickTemp.getBrickProperties().getPosition().getX();
-								float brickTempZ = brickTemp.getBrickProperties().getPosition().getZ();
-	
-								if (brickTemp!=brick)
-								{
-									// On vérifie si on est sur la même position qu'une autre brique
-									if(Math.abs(brickX-brickTempX)<brickTemp.getBrickLengthCalcul()+ brick.getBrickLengthCalcul())
-									{
-										if(Math.abs(brickZ-brickTempZ)<brickTemp.getBrickWidthCalcul()+brick.getBrickWidthCalcul())
-										{
-											nbBrickSurLaPile++;
-											System.out.println("5 bis");
-										}
-									}
-								}
-							}
-							// On gère le cas ou ya deja au moins une brique à notre position
-							if (nbBrickSurLaPile != 0)
-							{
-								// On recherche la brique la plus haute de cette pile
-								Brick brickLaplusHaute = chercherBriqueLaPlusHaute(brickX,brickY,brickZ);
-								// On vérifie si on est en haut de la pile ou pas
-								if (brick.getBrickProperties().getId() == brickLaplusHaute.getBrickProperties().getId()
-										|| brickY > brickLaplusHaute.getBrickProperties().getPosition().getY()
-									)
-								{
-									// On est tout en haut de la pile ==> on peut rester dessus
-									brick.setLocalTranslation(brickXSauv,brickYSauv,brickZSauv);
-								}
-								else
-								{
-									//On est pas tout en haut de la pile ==> on veut monter dessus
-									if (brick.getBrickHeightCalcul()==brickLaplusHaute.getBrickHeightCalcul()){
-										System.out.println("boucle 1");
-										brick.setLocalTranslation(brickX,brickY+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
-									}
-									else if (brick.getBrickHeightCalcul()<brickLaplusHaute.getBrickHeightCalcul()){
-										System.out.println("boucle 2");
-										brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()*2+ brick.getBrickHeightCalcul()*2+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
-										
-									}
-									else if (brick.getBrickHeightCalcul()>brickLaplusHaute.getBrickHeightCalcul()){
-										System.out.println("boucle 3");
-										brick.setLocalTranslation(brickX,brickY+brick.getBrickHeight()+ brick.getBrickHeightCalcul()+brickLaplusHaute.getBrickHeightCalcul(),brickZSauv);
-									}
-								}
-							}
-							else
-							{
-								System.out.println("8 bis");
-								brick.setLocalTranslation(brickX,brick.getBrickHeightCalcul(),brickZSauv);
 							}
 						}
 						else
 						{
-							System.out.println("9");
-							// Cas classique, on bouge selon la souris
-							brick.setLocalTranslation(brickX,brickY,brickZ);
+							System.out.println("8 bis");
+							brick.setLocalTranslation(brickX,brick.getBrickHeightCalcul(),brickZSauv);
 						}
-						
 					}
-						for (Brick brickTemp : brickList){
-						if (brickTemp.getBrickProperties().getId() 
-								== brick.getBrickProperties().getId()){
-							brickTemp.getBrickProperties().setPosition(
-									brick.getLocalTranslation());
-						}
-					
+					else
+					{
+						System.out.println("9");
+						// Cas classique, on bouge selon la souris
+						brick.setLocalTranslation(brickX,brickY,brickZ);
+					}
+
+				}
+				for (Brick brickTemp : brickList){
+					if (brickTemp.getBrickProperties().getId() 
+							== brick.getBrickProperties().getId()){
+						brickTemp.getBrickProperties().setPosition(
+								brick.getLocalTranslation());
+					}
+
 				}
 				brick = (Brick) results.getCollision(0).getGeometry();
 				brick.getBrickPhysic().setPhysicsLocation(new Vector3f( brick.getBrickProperties().getPosition().x ,  brick.getBrickProperties().getPosition().y,  brick.getBrickProperties().getPosition().z));
 			}			
 		}
 	};
-	
+
 	public Brick chercherBriqueLaPlusHaute(float brickX, float brickY, float brickZ)
 	{
 		Brick brickLaPlusHaute = null;
@@ -861,7 +861,7 @@ implements ActionListener,ScreenController {
 							"Button_physic", "Model physic"
 							,"Permer de mettre le model physic","90px"));
 					panel(builders.hspacer("10px"));
-					
+
 				}});
 
 				// panel vertical
@@ -878,24 +878,24 @@ implements ActionListener,ScreenController {
 							,"Permet de supprimer un kapla.","40px"));
 					panel(builders.vspacer("10px"));
 					// bouton transparent
-				//	control(MenuButtonControlDefinition.getControlBuilder(
+					//	control(MenuButtonControlDefinition.getControlBuilder(
 					//		"Button_transparent", "Trans"
-						//	,"Permet de rendre un kapla transparent.","40px"));
+					//	,"Permet de rendre un kapla transparent.","40px"));
 					//panel(builders.vspacer("10px"));
 					control(MenuButtonControlDefinition.getControlBuilder(
 							"Button_transparent", "Aide"
 							,"Appuyez sur le clic droit pour  créer un kapla.\n" +
-							 "Appuyez sur le clic gauche pour  sélectionner le kapla ciblé.\n" +
-							 "Restez appuyé avec le clic gauche sur un kapla, et avec la souris déplacer le. \n" +
-							 "Dirigez la caméra, en utilisant les touches directionnelles \n" +
-							 "Zoomez et dézoomez sur la construction, en utilisant Z et D\n " +
-							 "Effectuez une rotation horizontale, en utilisant R et T\n" +
-							 "Effectuez une rotation verticale, en utilisant F et V\n" +
-							 "Changez la couleur d'un kapla en le sélectionnant et en appuyant sur un chiffre(1 à 9)\n" +
-							 "Les boutons Nouveau, Sauvegarder, Charger sont explicites\n" +
-							 "Les boutons Défaire et Refaire permettent de supprimer et de faire réapparaître un kapla\n" +
-							 "Le bouton model physic permet d'appliquer un modèle physique à l'ensemble des kaplas, ainsi qu'aux futurs créés" +
-							 "  "	,"40px"));
+									"Appuyez sur le clic gauche pour  sélectionner le kapla ciblé.\n" +
+									"Restez appuyé avec le clic gauche sur un kapla, et avec la souris déplacer le. \n" +
+									"Dirigez la caméra, en utilisant les touches directionnelles \n" +
+									"Zoomez et dézoomez sur la construction, en utilisant Z et D\n " +
+									"Effectuez une rotation horizontale, en utilisant R et T\n" +
+									"Effectuez une rotation verticale, en utilisant F et V\n" +
+									"Changez la couleur d'un kapla en le sélectionnant et en appuyant sur un chiffre(1 à 9)\n" +
+									"Les boutons Nouveau, Sauvegarder, Charger sont explicites\n" +
+									"Les boutons Défaire et Refaire permettent de supprimer et de faire réapparaître un kapla\n" +
+									"Le bouton model physic permet d'appliquer un modèle physique à l'ensemble des kaplas, ainsi qu'aux futurs créés" +
+									"  "	,"40px"));
 					panel(builders.vspacer("10px"));
 				}});
 			}});
@@ -927,12 +927,12 @@ implements ActionListener,ScreenController {
 				.findElementByName("Button_redo");
 		buttonRedo.getElementInteraction().getPrimary().setOnClickMethod(
 				new NiftyMethodInvoker(nifty, "redo()", this));
-		
+
 		//controller pour mettre le model physics
 		Element buttonPhysic = nifty.getCurrentScreen()
-		.findElementByName("Button_physic");
+				.findElementByName("Button_physic");
 		buttonPhysic.getElementInteraction().getPrimary().setOnClickMethod(
-		new NiftyMethodInvoker(nifty, "physic()", this));
+				new NiftyMethodInvoker(nifty, "physic()", this));
 
 		// Controleur pour le button supprimer
 		Element buttonDelete = nifty.getCurrentScreen()
@@ -941,10 +941,10 @@ implements ActionListener,ScreenController {
 				new NiftyMethodInvoker(nifty, "delete()", this));
 		// Controleur pour le button transarent
 	}
-	
+
 	/**
-	* model physic. 
-	*/
+	 * model physic. 
+	 */
 	public void physic() {
 		//liste temporaire de Brick
 		ArrayList<Brick> listtemp = new ArrayList<Brick>();
@@ -954,7 +954,7 @@ implements ActionListener,ScreenController {
 			Brick brickTemp = (Brick)iter.next();
 			Brick b = new Brick(new BrickProperties(brickTemp.getBrickProperties().getId(),
 					new Vector3f(brickTemp.getBrickProperties().getPosition()), null), bulletAppState,
-							assetManager).makeBrick2();
+					assetManager).makeBrick2();
 			listtemp.add(b);
 			rootNode.detachChild(brickTemp);
 			iter.remove();
@@ -965,7 +965,7 @@ implements ActionListener,ScreenController {
 		}
 		GamePhysic = true;
 	}
-	
+
 	/**
 	 * Sauvegarde de la construction. 
 	 */
@@ -1042,7 +1042,7 @@ implements ActionListener,ScreenController {
 		nbOfPossibleUndo += 1;
 		history.add(ad);
 	}
-	
+
 	/**
 	 * Permet de dï¿½faire une action
 	 */
@@ -1066,8 +1066,8 @@ implements ActionListener,ScreenController {
 			if (history.getCurrentPosition() == -1) {
 				history.goForward();
 			}
-			
-	
+
+
 			nbOfPossibleUndo = nbOfPossibleUndo + 1;
 			nbOfPossibleRedo = nbOfPossibleRedo - 1;
 			history.getCurrentElement().act();
